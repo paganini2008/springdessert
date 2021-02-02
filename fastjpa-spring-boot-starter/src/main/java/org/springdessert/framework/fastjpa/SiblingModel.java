@@ -13,10 +13,9 @@ import javax.persistence.metamodel.EntityType;
 /**
  * 
  * SiblingModel
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class SiblingModel<X, Y> implements Model<Y> {
 

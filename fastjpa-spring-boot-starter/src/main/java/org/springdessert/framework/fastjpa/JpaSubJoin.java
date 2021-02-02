@@ -3,10 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaSubJoin
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public interface JpaSubJoin<T> {
 

@@ -1,4 +1,4 @@
-package com.github.paganini2008.springdessert.xmemcached.serializer;
+package org.springdessert.framework.xmemcached.serializer;
 
 import java.io.IOException;
 

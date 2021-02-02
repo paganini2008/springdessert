@@ -12,9 +12,9 @@ import com.github.paganini2008.devtools.collection.Tuple;
 /**
  * 
  * RowMapperResultSetSlice
- * 
+ *
  * @author Jimmy Hoff
- * 
+ * @version 1.0
  */
 public abstract class RowMapperResultSetSlice<T> extends GeneralResultSetSlice<T> {
 

@@ -10,10 +10,8 @@ import javax.persistence.criteria.Expression;
 /**
  * 
  * CaseExpression
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
  * @version 1.0
  */
 public class CaseExpression<R> implements Field<R> {

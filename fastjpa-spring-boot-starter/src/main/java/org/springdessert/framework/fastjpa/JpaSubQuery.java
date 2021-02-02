@@ -3,10 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaSubQuery
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public interface JpaSubQuery<E, T> extends JpaSubJoin<T>, SubQueryBuilder<T> {
 

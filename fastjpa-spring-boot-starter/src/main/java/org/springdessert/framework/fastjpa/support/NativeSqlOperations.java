@@ -8,9 +8,9 @@ import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
 /**
  * 
  * NativeSqlOperations
- * 
+ *
  * @author Jimmy Hoff
- * 
+ * @version 1.0
  */
 public interface NativeSqlOperations<E> {
 

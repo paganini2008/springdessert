@@ -3,9 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaUpdate
- * 
+ *
  * @author Jimmy Hoff
- * 
+ * @version 1.0
  */
 public interface JpaUpdate<E> extends Executable {
 

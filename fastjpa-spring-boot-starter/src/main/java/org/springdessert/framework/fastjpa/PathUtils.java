@@ -5,10 +5,9 @@ import javax.persistence.criteria.Path;
 /**
  * 
  * PathUtils
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public abstract class PathUtils {
 

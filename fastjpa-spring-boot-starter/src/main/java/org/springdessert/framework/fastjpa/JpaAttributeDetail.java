@@ -3,10 +3,8 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaAttributeDetail
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
  * @version 1.0
  */
 public interface JpaAttributeDetail {

@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
  * ReferenceId
  *
  * @author Jimmy Hoff
- * 
- * 
  * @version 1.0
  */
 @Target({ FIELD })

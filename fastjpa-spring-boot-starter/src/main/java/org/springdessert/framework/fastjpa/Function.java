@@ -11,10 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 
  * Function
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class Function<T> implements Field<T> {
 

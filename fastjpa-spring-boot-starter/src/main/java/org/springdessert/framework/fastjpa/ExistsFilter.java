@@ -6,10 +6,9 @@ import javax.persistence.criteria.Predicate;
 /**
  * 
  * ExistsFilter
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class ExistsFilter extends LogicalFilter {
 

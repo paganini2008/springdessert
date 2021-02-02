@@ -10,15 +10,11 @@ import javax.persistence.criteria.Expression;
 /**
  * 
  * Fields
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
-public class Fields {
-
-	private Fields() {
-	}
+public abstract class Fields {
 
 	public static <X> Field<X> root() {
 		return new Field<X>() {

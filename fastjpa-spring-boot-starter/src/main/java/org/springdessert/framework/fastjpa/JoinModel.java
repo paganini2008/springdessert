@@ -16,10 +16,9 @@ import javax.persistence.metamodel.SingularAttribute;
 /**
  * 
  * JoinModel
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class JoinModel<X, Y> implements Model<Y> {
 

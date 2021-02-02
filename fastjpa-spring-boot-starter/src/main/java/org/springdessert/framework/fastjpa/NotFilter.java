@@ -6,10 +6,8 @@ import javax.persistence.criteria.Predicate;
 /**
  * 
  * NotFilter
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
  * @version 1.0
  */
 public class NotFilter extends LogicalFilter {

@@ -3,10 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * LogicalFilter
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public abstract class LogicalFilter implements Filter {
 

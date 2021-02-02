@@ -3,10 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaSubGroupBy
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public interface JpaSubGroupBy<E, T> {
 

@@ -8,10 +8,9 @@ import javax.persistence.criteria.Predicate;
 /**
  * 
  * Restrictions
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public abstract class Restrictions {
 

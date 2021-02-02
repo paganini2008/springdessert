@@ -8,8 +8,7 @@ import java.util.Arrays;
  * ColumnList
  *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class ColumnList extends ArrayList<Column> {
 

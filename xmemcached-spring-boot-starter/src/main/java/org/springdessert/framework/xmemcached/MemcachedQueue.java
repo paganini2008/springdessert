@@ -1,4 +1,4 @@
-package com.github.paganini2008.springdessert.xmemcached;
+package org.springdessert.framework.xmemcached;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

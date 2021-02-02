@@ -10,10 +10,9 @@ import javax.persistence.criteria.Subquery;
 /**
  * 
  * JpaSubQueryImpl
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public class JpaSubQueryImpl<E, T> implements JpaSubQuery<E, T> {
 

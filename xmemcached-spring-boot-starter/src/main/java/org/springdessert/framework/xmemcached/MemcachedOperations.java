@@ -1,4 +1,4 @@
-package com.github.paganini2008.springdessert.xmemcached;
+package org.springdessert.framework.xmemcached;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 

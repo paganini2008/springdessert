@@ -6,10 +6,9 @@ import javax.persistence.criteria.Selection;
 /**
  * 
  * Column
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
+ * @version 1.0
  */
 public interface Column {
 

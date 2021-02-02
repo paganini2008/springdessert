@@ -12,10 +12,9 @@ import com.github.paganini2008.devtools.collection.Tuple;
 /**
  * 
  * Transformers
- * 
- * @author Jimmy Hoff
  *
- * @since 1.0
+ * @author Jimmy Hoff
+ * @version 1.0
  */
 public abstract class Transformers {
 

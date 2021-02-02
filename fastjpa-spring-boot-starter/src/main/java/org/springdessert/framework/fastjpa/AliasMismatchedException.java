@@ -3,10 +3,8 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * AliasMismatchedException
- * 
+ *
  * @author Jimmy Hoff
- * 
- * 
  * @version 1.0
  */
 public class AliasMismatchedException extends IllegalArgumentException {

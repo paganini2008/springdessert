@@ -3,9 +3,9 @@ package org.springdessert.framework.fastjpa;
 /**
  * 
  * JpaCustomUpdate
- * 
+ *
  * @author Jimmy Hoff
- * 
+ * @version 1.0
  */
 public interface JpaCustomUpdate<X> {
 

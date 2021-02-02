@@ -6,10 +6,9 @@ import javax.persistence.criteria.Subquery;
 /**
  * 
  * SubQueryBuilder
- * 
- * @author Jimmy Hoff
  *
- * @since 1.0
+ * @author Jimmy Hoff
+ * @version 1.0
  */
 public interface SubQueryBuilder<T> {
 
