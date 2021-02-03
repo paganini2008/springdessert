@@ -2,23 +2,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	
-	<groupId>org.springdessert.framework</groupId>
+	<groupId>org.springtribe.framework</groupId>
 	<version>1.0-RC1</version>
-    <artifactId>springdessert-components</artifactId>
+    <artifactId>springtribe-components</artifactId>
 	
     <modules>
 	    <module>fastjpa-spring-boot-starter</module>
-		<module>config-spring-boot-starter</module>
 		<module>reditools-spring-boot-starter</module>
-		<module>cluster-spring-boot-starter</module>
 		<module>jdbc-spring-boot-starter</module>
 		<module>xmemcached-spring-boot-starter</module>
     </modules>
 	
     <packaging>pom</packaging>
-    <name>springdessert</name>
+    <name>springtribe</name>
     <description>Some components based on spring framework </description>
-	<url>https://github.com/paganini2008/springdessert</url>
+	<url>https://github.com/paganini2008/springtribe</url>
 	
 	<licenses>
         <license>
@@ -35,9 +33,9 @@
     </developers>
 	
 	<scm>
-        <connection>https://github.com/paganini2008/springdessert.git</connection>
-        <developerConnection>https://github.com/paganini2008/springdessert.git</developerConnection>
-        <url>https://github.com/paganini2008/springdessert</url>
+        <connection>https://github.com/paganini2008/springtribe.git</connection>
+        <developerConnection>https://github.com/paganini2008/springtribe.git</developerConnection>
+        <url>https://github.com/paganini2008/springtribe</url>
     </scm>
 	
 	<properties>

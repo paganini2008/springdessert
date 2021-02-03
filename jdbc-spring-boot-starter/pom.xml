@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>org.springdessert.framework</groupId>
+		<groupId>org.springtribe.framework</groupId>
 		<version>1.0-RC1</version>
-		<artifactId>springdessert-components</artifactId>
+		<artifactId>springtribe-components</artifactId>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -13,11 +13,11 @@
 	<packaging>jar</packaging>
 
 	<name>jdbc-spring-boot-starter</name>
-	<url>https://github.com/paganini2008/springdessert</url>
+	<url>https://github.com/paganini2008/springtribe</url>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springdessert.framework</groupId>
+			<groupId>org.springtribe.framework</groupId>
 			<artifactId>reditools-spring-boot-starter</artifactId>
 			<version>1.0-RC1</version>
 		</dependency>

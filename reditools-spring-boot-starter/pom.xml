@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springdessert.framework</groupId>
+		<groupId>org.springtribe.framework</groupId>
 		<version>1.0-RC1</version>
-		<artifactId>springdessert-components</artifactId>
+		<artifactId>springtribe-components</artifactId>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>reditools-spring-boot-starter</artifactId>
 	<packaging>jar</packaging>
 	<name>reditools-spring-boot-starter</name>
-	<url>https://github.com/paganini2008/springworld</url>
+	<url>https://github.com/paganini2008/springtribe</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
