@@ -18,7 +18,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springtribe.framework</groupId>
+			<groupId>indi.atlantis.framework</groupId>
 			<artifactId>reditools-spring-boot-starter</artifactId>
 			<version>1.0-RC1</version>
 		</dependency>

@@ -14,7 +14,7 @@
     </modules>
 	
     <packaging>pom</packaging>
-    <name>springtribe</name>
+    <name>atlantis</name>
     <description>Some components based on springboot framework </description>
 	<url>https://github.com/paganini2008/atlantis</url>
 	
