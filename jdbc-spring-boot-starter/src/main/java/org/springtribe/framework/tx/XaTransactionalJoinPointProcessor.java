@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springtribe.framework.reditools.messager.RedisMessageHandler;
-import org.springtribe.framework.reditools.messager.RedisMessageSender;
 
 import com.github.paganini2008.devtools.ExceptionUtils;
 import com.github.paganini2008.devtools.StringUtils;
@@ -26,6 +24,8 @@ import com.github.paganini2008.devtools.collection.CollectionUtils;
 import com.github.paganini2008.devtools.multithreads.ThreadLocalInteger;
 import com.github.paganini2008.devtools.reflection.MethodUtils;
 
+import indi.atlantis.framework.reditools.messager.RedisMessageHandler;
+import indi.atlantis.framework.reditools.messager.RedisMessageSender;
 import lombok.extern.slf4j.Slf4j;
 
 /**

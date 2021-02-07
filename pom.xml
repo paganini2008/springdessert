@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	
-	<groupId>org.springtribe.framework</groupId>
+	<groupId>indi.atlantis.framework</groupId>
 	<version>1.0-RC1</version>
-    <artifactId>springtribe-components</artifactId>
+    <artifactId>atlantis-common</artifactId>
 	
     <modules>
 	    <module>fastjpa-spring-boot-starter</module>
@@ -15,8 +15,8 @@
 	
     <packaging>pom</packaging>
     <name>springtribe</name>
-    <description>Some components based on spring framework </description>
-	<url>https://github.com/paganini2008/springtribe</url>
+    <description>Some components based on springboot framework </description>
+	<url>https://github.com/paganini2008/atlantis</url>
 	
 	<licenses>
         <license>
@@ -33,9 +33,9 @@
     </developers>
 	
 	<scm>
-        <connection>https://github.com/paganini2008/springtribe.git</connection>
-        <developerConnection>https://github.com/paganini2008/springtribe.git</developerConnection>
-        <url>https://github.com/paganini2008/springtribe</url>
+        <connection>https://github.com/paganini2008/atlantis.git</connection>
+        <developerConnection>https://github.com/paganini2008/atlantis.git</developerConnection>
+        <url>https://github.com/paganini2008/atlantis</url>
     </scm>
 	
 	<properties>

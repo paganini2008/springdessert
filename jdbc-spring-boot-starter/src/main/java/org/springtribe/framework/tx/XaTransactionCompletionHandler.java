@@ -1,8 +1,7 @@
 package org.springtribe.framework.tx;
 
-import org.springtribe.framework.reditools.messager.MessageHandler;
-import org.springtribe.framework.reditools.messager.OnMessage;
-
+import indi.atlantis.framework.reditools.messager.MessageHandler;
+import indi.atlantis.framework.reditools.messager.OnMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
