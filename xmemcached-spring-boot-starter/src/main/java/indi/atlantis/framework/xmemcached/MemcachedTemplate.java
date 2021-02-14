@@ -1,7 +1,13 @@
 package indi.atlantis.framework.xmemcached;
 
+import com.google.code.yanf4j.core.impl.StandardSocketOption;
+
+import indi.atlantis.framework.xmemcached.serializer.KryoMemcachedSerializer;
 import indi.atlantis.framework.xmemcached.serializer.MemcachedSerializer;
 import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.XMemcachedClientBuilder;
+import net.rubyeye.xmemcached.command.BinaryCommandFactory;
+import net.rubyeye.xmemcached.utils.AddrUtil;
 
 /**
  * 
@@ -12,7 +18,7 @@ import net.rubyeye.xmemcached.MemcachedClient;
  */
 public class MemcachedTemplate implements MemcachedOperations {
 
-	public MemcachedTemplate(MemcachedClient client, MemcachedSerializer serializer) {
+	MemcachedTemplate(MemcachedClient client, MemcachedSerializer serializer) {
 		this.client = client;
 		this.serializer = serializer;
 	}
@@ -45,6 +51,66 @@ public class MemcachedTemplate implements MemcachedOperations {
 
 	public MemcachedClient getClient() {
 		return client;
+	}
+
+	/**
+	 * 
+	 * Builder
+	 *
+	 * @author Jimmy Hoff
+	 * @version 1.0
+	 */
+	public static class Builder {
+
+		private String address = "localhost:11211";
+		private int connectionPoolSize = 8;
+		private long sessionIdleTimeout = 10000;
+		private int soTimeout = 60000;
+		private MemcachedSerializer serializer;
+
+		public Builder setAddress(String address) {
+			this.address = address;
+			return this;
+		}
+
+		public Builder setConnectionPoolSize(int connectionPoolSize) {
+			this.connectionPoolSize = connectionPoolSize;
+			return this;
+		}
+
+		public Builder setSessionIdleTimeout(long sessionIdleTimeout) {
+			this.sessionIdleTimeout = sessionIdleTimeout;
+			return this;
+		}
+
+		public Builder setSoTimeout(int soTimeout) {
+			this.soTimeout = soTimeout;
+			return this;
+		}
+
+		public Builder setSerializer(MemcachedSerializer serializer) {
+			this.serializer = serializer;
+			return this;
+		}
+
+		public MemcachedTemplate build() throws Exception {
+			XMemcachedClientBuilder clientBuilder = new XMemcachedClientBuilder(AddrUtil.getAddresses(address));
+			clientBuilder.setConnectionPoolSize(connectionPoolSize);
+			clientBuilder.getConfiguration().setSessionIdleTimeout(sessionIdleTimeout);
+			clientBuilder.getConfiguration().setSoTimeout(soTimeout);
+
+			clientBuilder.setSocketOption(StandardSocketOption.SO_RCVBUF, 64 * 1024);
+			clientBuilder.setSocketOption(StandardSocketOption.SO_SNDBUF, 32 * 1024);
+			clientBuilder.setSocketOption(StandardSocketOption.TCP_NODELAY, false);
+
+			clientBuilder.setFailureMode(true);
+			clientBuilder.setCommandFactory(new BinaryCommandFactory());
+			if (serializer == null) {
+				serializer = new KryoMemcachedSerializer();
+			}
+			return new MemcachedTemplate(clientBuilder.build(), serializer);
+		}
+
 	}
 
 }
