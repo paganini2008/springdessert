@@ -14,9 +14,9 @@
     </modules>
 	
     <packaging>pom</packaging>
-    <name>atlantis</name>
+    <name>atlantis-common</name>
     <description>Some components based on springboot framework </description>
-	<url>https://github.com/paganini2008/atlantis</url>
+	<url>https://github.com/paganini2008/atlantis-common</url>
 	
 	<licenses>
         <license>
@@ -33,9 +33,9 @@
     </developers>
 	
 	<scm>
-        <connection>https://github.com/paganini2008/atlantis.git</connection>
-        <developerConnection>https://github.com/paganini2008/atlantis.git</developerConnection>
-        <url>https://github.com/paganini2008/atlantis</url>
+        <connection>https://github.com/paganini2008/atlantis-common.git</connection>
+        <developerConnection>https://github.com/paganini2008/atlantis-common.git</developerConnection>
+        <url>https://github.com/paganini2008/atlantis-common</url>
     </scm>
 	
 	<properties>
