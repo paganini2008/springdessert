@@ -36,7 +36,7 @@ import indi.atlantis.framework.reditools.BeanNames;
 @ConditionalOnBean(RedisConnectionFactory.class)
 public class RedisMessageConfig {
 
-	@ConditionalOnMissingBean
+	@ConditionalOnMissingBean(name = BeanNames.REDIS_SERIALIZER)
 	@Bean(BeanNames.REDIS_SERIALIZER)
 	public RedisSerializer<Object> redisSerializer() {
 		ObjectMapper om = new ObjectMapper();
@@ -61,8 +61,8 @@ public class RedisMessageConfig {
 		return redisTemplate;
 	}
 
-	@Bean
 	@ConditionalOnMissingBean
+	@Bean
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		return new StringRedisTemplate(redisConnectionFactory);
 	}
