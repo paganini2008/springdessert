@@ -45,6 +45,7 @@ public class TtlKeeper {
 		taskScheduler.setThreadFactory(new PooledThreadFactory("ttl-keeper-task-scheduler-"));
 		taskScheduler.setWaitForTasksToCompleteOnShutdown(true);
 		taskScheduler.setAwaitTerminationSeconds(60);
+		taskScheduler.initialize();
 		this.taskScheduler = taskScheduler;
 	}
 
