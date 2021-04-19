@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>fastjpa-spring-boot-starter</name>
-	<url>https://github.com/paganini2008/springtribe</url>
+	<url>https://github.com/paganini2008/atlantis-common</url>
 
 	<dependencies>
 		<dependency>
