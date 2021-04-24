@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>indi.atlantis.framework</groupId>
-		<version>1.0-RC1</version>
-		<artifactId>atlantis-common</artifactId>
+		<groupId>com.github.paganini2008.springworld</groupId>
+		<artifactId>springworld-common</artifactId>
+		<version>2.0-RC5</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>fastjpa-spring-boot-starter</name>
-	<url>https://github.com/paganini2008/atlantis-common</url>
+	<url>https://github.com/paganini2008/springworld-common</url>
 
 	<dependencies>
 		<dependency>

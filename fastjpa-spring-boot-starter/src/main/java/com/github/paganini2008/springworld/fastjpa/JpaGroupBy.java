@@ -3,10 +3,10 @@ package com.github.paganini2008.springworld.fastjpa;
 /**
  * 
  * JpaGroupBy
- *
+ * 
  * @author Jimmy Hoff
- * 
- * 
+ *
+ * @version 1.0
  */
 public interface JpaGroupBy<E> {
 

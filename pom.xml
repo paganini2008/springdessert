@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	
-	<groupId>indi.atlantis.framework</groupId>
-	<version>1.0-RC1</version>
-    <artifactId>atlantis-common</artifactId>
+	<groupId>com.github.paganini2008.springworld</groupId>
+    <artifactId>springworld-common</artifactId>
+	<version>2.0-RC5</version>
 	
     <modules>
 	    <module>fastjpa-spring-boot-starter</module>
@@ -14,9 +14,9 @@
     </modules>
 	
     <packaging>pom</packaging>
-    <name>atlantis-common</name>
+    <name>springworld-common</name>
     <description>Some components based on springboot framework </description>
-	<url>https://github.com/paganini2008/atlantis-common</url>
+	<url>https://github.com/paganini2008/springworld-common</url>
 	
 	<licenses>
         <license>
@@ -33,9 +33,9 @@
     </developers>
 	
 	<scm>
-        <connection>https://github.com/paganini2008/atlantis-common.git</connection>
-        <developerConnection>https://github.com/paganini2008/atlantis-common.git</developerConnection>
-        <url>https://github.com/paganini2008/atlantis-common</url>
+        <connection>https://github.com/paganini2008/springworld-common.git</connection>
+        <developerConnection>https://github.com/paganini2008/springworld-common.git</developerConnection>
+        <url>https://github.com/paganini2008/springworld-common</url>
     </scm>
 	
 	<properties>
