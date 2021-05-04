@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
     <name>springdessert</name>
     <description>Some components based on springboot framework </description>
-	<url>https://github.com/paganini2008/springworld-common</url>
+	<url>https://github.com/paganini2008/springdessert</url>
 	
 	<licenses>
         <license>
@@ -33,9 +33,9 @@
     </developers>
 	
 	<scm>
-        <connection>https://github.com/paganini2008/springworld-common.git</connection>
-        <developerConnection>https://github.com/paganini2008/springworld-common.git</developerConnection>
-        <url>https://github.com/paganini2008/springworld-common</url>
+        <connection>https://github.com/paganini2008/springdessert.git</connection>
+        <developerConnection>https://github.com/paganini2008/springdessert.git</developerConnection>
+        <url>https://github.com/paganini2008/springdessert</url>
     </scm>
 	
 	<properties>
