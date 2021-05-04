@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 import com.github.paganini2008.devtools.jdbc.DefaultPageableSql;
 import com.github.paganini2008.devtools.jdbc.PageableSql;
+import com.github.paganini2008.springworld.jdbc.DaoListener;
 
 /**
  * 
@@ -24,7 +25,9 @@ public @interface Query {
 	Class<? extends PageableSql> pageableSql() default DefaultPageableSql.class;
 
 	String value();
-	
+
 	boolean singleColumn() default false;
+
+	Class<? extends DaoListener>[] listeners() default {};
 
 }

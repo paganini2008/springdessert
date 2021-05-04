@@ -6,7 +6,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.support.atomic.RedisAtomicInteger;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 
 import com.github.paganini2008.devtools.multithreads.Executable;
 import com.github.paganini2008.devtools.multithreads.ThreadUtils;
@@ -26,7 +26,7 @@ public class RedisCountDownLatch implements DistributedCountDownLatch, Executabl
 	private final String latchName;
 	private final String attachmentName;
 	private final RedisTemplate<String, Object> redisTemplate;
-	private final RedisAtomicInteger counter;
+	private final RedisAtomicLong counter;
 	private CountDownLatch latch;
 	private Timer timer;
 
@@ -34,12 +34,14 @@ public class RedisCountDownLatch implements DistributedCountDownLatch, Executabl
 		this.latchName = LATCH_NAME_PREFIX + name;
 		this.attachmentName = ATTACHMENT_NAME_PREFIX + name;
 		this.redisTemplate = redisTemplate;
-		this.counter = new RedisAtomicInteger(latchName, redisTemplate.getConnectionFactory());
+		this.counter = new RedisAtomicLong(latchName, redisTemplate.getConnectionFactory());
 	}
 
-	public RedisCountDownLatch(String name, RedisTemplate<String, Object> redisTemplate, int permits) {
+	public RedisCountDownLatch(String name, RedisTemplate<String, Object> redisTemplate, long permits) {
 		this(name, redisTemplate);
-		this.counter.set(permits);
+		
+		long exists = redisTemplate.hasKey(attachmentName) ? redisTemplate.opsForList().size(attachmentName) : 0;
+		this.counter.set(permits - exists);
 		this.latch = new CountDownLatch(1);
 		this.timer = ThreadUtils.scheduleWithFixedDelay(this, 1, 1, TimeUnit.SECONDS);
 	}

@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.paganini2008.springworld.jdbc.DaoListener;
+
 /**
  * 
  * Insert
@@ -21,5 +23,7 @@ import java.lang.annotation.Target;
 public @interface Insert {
 
 	String value();
-	
+
+	Class<? extends DaoListener>[] listeners() default {};
+
 }

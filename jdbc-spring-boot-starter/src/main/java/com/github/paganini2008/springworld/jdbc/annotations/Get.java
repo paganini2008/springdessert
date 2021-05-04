@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.paganini2008.springworld.jdbc.DaoListener;
+
 /**
  * 
  * Get
@@ -23,5 +25,7 @@ public @interface Get {
 	String value();
 
 	boolean javaType() default false;
+
+	Class<? extends DaoListener>[] listeners() default {};
 
 }

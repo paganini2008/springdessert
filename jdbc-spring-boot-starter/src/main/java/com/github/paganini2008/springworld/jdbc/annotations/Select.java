@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.paganini2008.springworld.jdbc.DaoListener;
+
 /**
  * 
  * Select
@@ -21,5 +23,7 @@ public @interface Select {
 	String value();
 
 	boolean singleColumn() default false;
+
+	Class<? extends DaoListener>[] listeners() default {};
 
 }

@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.paganini2008.devtools.ArrayUtils;
 import com.github.paganini2008.devtools.NotImplementedException;
+import com.github.paganini2008.devtools.Provider;
 import com.github.paganini2008.devtools.StringUtils;
 import com.github.paganini2008.devtools.beans.BeanUtils;
 import com.github.paganini2008.devtools.beans.PropertyUtils;
@@ -38,6 +39,7 @@ import com.github.paganini2008.devtools.db4j.mapper.TupleRowMapper;
 import com.github.paganini2008.devtools.jdbc.ConnectionFactory;
 import com.github.paganini2008.devtools.jdbc.PageableSql;
 import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
+import com.github.paganini2008.springworld.jdbc.DaoListener;
 import com.github.paganini2008.springworld.jdbc.NoGeneratedKeyException;
 import com.github.paganini2008.springworld.jdbc.annotations.Arg;
 import com.github.paganini2008.springworld.jdbc.annotations.Args;
@@ -61,11 +63,13 @@ import com.github.paganini2008.springworld.jdbc.annotations.Update;
 public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 
 	private final Class<T> interfaceClass;
+	private final Provider<Class<?>, Object> listenerProvider;
 	protected final Logger log;
 
-	public Db4jDaoProxyBean(ConnectionFactory connectionFactory, Class<T> interfaceClass) {
+	public Db4jDaoProxyBean(ConnectionFactory connectionFactory, Class<T> interfaceClass, Provider<Class<?>, Object> listenerProvider) {
 		super(connectionFactory);
 		this.interfaceClass = interfaceClass;
+		this.listenerProvider = listenerProvider;
 		this.log = LoggerFactory.getLogger(interfaceClass);
 	}
 
@@ -97,6 +101,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		String sql = select.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
+		for (Class<?> listenerClass : select.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		sql = sqlBuilder.toString();
 		try {
 			if (select.singleColumn()) {
@@ -111,7 +119,11 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				}
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : select.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
 
@@ -124,6 +136,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		final Query query = method.getAnnotation(Query.class);
 		StringBuilder sqlBuilder = new StringBuilder(query.value());
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
+		for (Class<?> listenerClass : query.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		String sql = sqlBuilder.toString();
 		PageableSql pageableSql = BeanUtils.instantiate(query.pageableSql(), sql);
 		try {
@@ -139,7 +155,11 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				}
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : query.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
 
@@ -153,6 +173,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		String sql = getter.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
+		for (Class<?> listenerClass : getter.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		sql = sqlBuilder.toString();
 		try {
 			if (getter.javaType()) {
@@ -167,7 +191,11 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				}
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : getter.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
 
@@ -181,6 +209,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		String sql = batch.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameters sqlParameters = getSqlParameters(method, args, sqlBuilder);
+		for (Class<?> listenerClass : batch.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		sql = sqlBuilder.toString();
 		try {
 			int[] effects = batchUpdate(sql, sqlParameters);
@@ -191,7 +223,11 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				return ConvertUtils.convertValue(effectedRows, returnType);
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : batch.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
 
@@ -205,6 +241,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		String sql = insert.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
+		for (Class<?> listenerClass : insert.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		sql = sqlBuilder.toString();
 		try {
 			GeneratedKey generatedKey = GeneratedKey.autoGenerated();
@@ -223,7 +263,11 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				return ConvertUtils.convertValue(value, returnType);
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : insert.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
 
@@ -237,6 +281,10 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		String sql = update.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
+		for (Class<?> listenerClass : update.listeners()) {
+			DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+			daoListener.beforeExecution(startTime, sqlBuilder, args, this);
+		}
 		sql = sqlBuilder.toString();
 		try {
 			int effectedRows = update(sql, sqlParameter);
@@ -246,10 +294,14 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 				return ConvertUtils.convertValue(effectedRows, returnType);
 			}
 		} finally {
-			printSql(sql, startTime);
+			for (Class<?> listenerClass : update.listeners()) {
+				DaoListener daoListener = (DaoListener) listenerProvider.apply(listenerClass);
+				daoListener.afterExecution(startTime, sql, args, this);
+			}
+			printSql(sql, args, startTime);
 		}
 	}
-	
+
 	private Class<?> getMethodReturnTypeElementType(Method method) {
 		Type returnType = method.getGenericReturnType();
 		ParameterizedType parameterizedType = (ParameterizedType) returnType;
@@ -263,7 +315,7 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		throw new UnsupportedOperationException(returnType.getTypeName());
 	}
 
-	private void printSql(String sql, long startTime) {
+	private void printSql(String sql, Object[] args, long startTime) {
 		if (log.isTraceEnabled()) {
 			log.trace("Execute sql: {}, Take: {} ms", sql, System.currentTimeMillis() - startTime);
 		}

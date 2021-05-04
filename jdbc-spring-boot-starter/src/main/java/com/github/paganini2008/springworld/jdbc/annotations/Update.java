@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.paganini2008.springworld.jdbc.DaoListener;
+
 /**
  * 
  * Update
@@ -19,5 +21,7 @@ import java.lang.annotation.Target;
 public @interface Update {
 
 	String value();
+
+	Class<? extends DaoListener>[] listeners() default {};
 
 }

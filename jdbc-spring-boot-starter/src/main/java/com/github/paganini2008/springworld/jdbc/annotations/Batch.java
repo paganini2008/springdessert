@@ -6,9 +6,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.paganini2008.springworld.jdbc.DaoListener;
+
 /**
  * 
  * Batch
+ * 
  * @author Jimmy Hoff
  *
  * @version 1.0
@@ -17,6 +20,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Batch {
-	
+
 	String value();
+
+	Class<? extends DaoListener>[] listeners() default {};
 }
