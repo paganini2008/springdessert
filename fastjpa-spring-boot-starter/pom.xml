@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>com.github.paganini2008.springworld</groupId>
-		<artifactId>springworld-common</artifactId>
+        <artifactId>springdessert</artifactId>
 		<version>2.0-RC5</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>fastjpa-spring-boot-starter</name>
-	<url>https://github.com/paganini2008/springworld-common</url>
+	<url>https://github.com/paganini2008/springdessert</url>
 
 	<dependencies>
 		<dependency>

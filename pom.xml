@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.github.paganini2008.springworld</groupId>
-    <artifactId>springworld-common</artifactId>
+    <artifactId>springdessert</artifactId>
 	<version>2.0-RC5</version>
 	
     <modules>
@@ -14,7 +14,7 @@
     </modules>
 	
     <packaging>pom</packaging>
-    <name>springworld-common</name>
+    <name>springdessert</name>
     <description>Some components based on springboot framework </description>
 	<url>https://github.com/paganini2008/springworld-common</url>
 	
