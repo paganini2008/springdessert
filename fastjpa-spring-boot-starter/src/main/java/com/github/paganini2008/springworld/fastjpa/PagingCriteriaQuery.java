@@ -1,5 +1,6 @@
 package com.github.paganini2008.springworld.fastjpa;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Tuple;
@@ -9,6 +10,8 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
+
+import com.github.paganini2008.devtools.collection.CollectionUtils;
 
 /**
  * 
@@ -21,22 +24,21 @@ import javax.persistence.criteria.Subquery;
 public final class PagingCriteriaQuery {
 
 	private final CriteriaQuery<Tuple> query;
-	private final CriteriaQuery<Tuple> count;
 
-	PagingCriteriaQuery(CriteriaQuery<Tuple> query, CriteriaQuery<Tuple> count) {
+	PagingCriteriaQuery(CriteriaQuery<Tuple> query) {
 		this.query = query;
-		this.count = count;
 	}
 
 	public void where(Predicate restriction) {
 		if (restriction != null) {
 			query.where(restriction);
-			count.where(restriction);
 		}
 	}
 
 	public void groupBy(List<Expression<?>> grouping) {
-		query.groupBy(grouping);
+		if (CollectionUtils.isNotEmpty(grouping)) {
+			query.groupBy(grouping);
+		}
 	}
 
 	public void having(Predicate restriction) {
@@ -62,16 +64,29 @@ public final class PagingCriteriaQuery {
 	}
 
 	public int rowCount(Model<?> model, JpaCustomQuery<?> customQuery) {
-		Tuple tuple = customQuery.getSingleResult(builder -> {
+		final List<Selection<?>> selectionList = query.getSelection().getCompoundSelectionItems();
+		final List<Order> orderList = query.getOrderList();
+		List<Tuple> tupleList = customQuery.getResultList(builder -> {
 			if (query.isDistinct()) {
-				count.multiselect(Fields.countDistinct(Fields.root()).toExpression(model, builder));
+				query.multiselect(Fields.countDistinct(Fields.root()).toExpression(model, builder));
 			} else {
-				count.multiselect(Fields.count(Fields.root()).toExpression(model, builder));
+				query.multiselect(Fields.count(Fields.root()).toExpression(model, builder));
 			}
-			return count;
+			query.orderBy(Collections.<Order>emptyList());
+			return query;
 		});
-		Object result = tuple.get(0);
-		return result instanceof Number ? ((Number) result).intValue() : 0;
+		query.multiselect(selectionList);
+		query.orderBy(orderList);
+		if (CollectionUtils.isEmpty(tupleList)) {
+			return 0;
+		}
+		if (CollectionUtils.isNotEmpty(query.getGroupList()) && tupleList.size() > 1) {
+			return tupleList.size();
+		} else {
+			Tuple tuple = tupleList.get(0);
+			Object result = tuple.get(0);
+			return result instanceof Number ? ((Number) result).intValue() : 0;
+		}
 	}
 
 	public List<Tuple> list(Model<?> model, JpaCustomQuery<?> customQuery, int maxResults, int firstResult) {
@@ -80,10 +95,6 @@ public final class PagingCriteriaQuery {
 
 	CriteriaQuery<Tuple> getQuery() {
 		return query;
-	}
-
-	CriteriaQuery<Tuple> getCount() {
-		return count;
 	}
 
 }

@@ -89,9 +89,8 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 	public JpaQuery<E> select(Class<E> entityClass, String alias) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
-		CriteriaQuery<Tuple> count = builder.createTupleQuery();
 		Root<E> root = query.from(entityClass);
-		return new JpaQueryImpl<E>(new RootModel<E>(root, alias, em.getMetamodel()), new PagingCriteriaQuery(query, count), builder, this);
+		return new JpaQueryImpl<E>(new RootModel<E>(root, alias, em.getMetamodel()), new PagingCriteriaQuery(query), builder, this);
 	}
 
 }
