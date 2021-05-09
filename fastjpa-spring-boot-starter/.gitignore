@@ -6,6 +6,7 @@
 .project
 /.metadata/
 /.settings/
+
 #other
 /tmp/
 /logs/
@@ -13,3 +14,4 @@
 *.iml
 /bin/
 .dbeaver
+.factorypath
