@@ -3,6 +3,8 @@ package com.github.paganini2008.springworld.fastjpa.support;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Tuple;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,6 +13,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import com.github.paganini2008.springworld.fastjpa.Filter;
 import com.github.paganini2008.springworld.fastjpa.JpaDelete;
+import com.github.paganini2008.springworld.fastjpa.JpaPage;
 import com.github.paganini2008.springworld.fastjpa.JpaQuery;
 import com.github.paganini2008.springworld.fastjpa.JpaUpdate;
 
@@ -50,6 +53,10 @@ public interface EntityDao<E, ID> extends JpaRepositoryImplementation<E, ID>, Na
 
 	JpaDelete<E> delete();
 
-	JpaQuery<E> select();
+	JpaQuery<E, Tuple> query();
+
+	<T> JpaQuery<E, T> query(Class<T> resultClass);
+
+	JpaPage<E, Tuple> select();
 
 }

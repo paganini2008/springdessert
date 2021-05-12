@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import com.github.paganini2008.springworld.fastjpa.Fields;
 import com.github.paganini2008.springworld.fastjpa.Filter;
 import com.github.paganini2008.springworld.fastjpa.JpaDaoSupport;
 import com.github.paganini2008.springworld.fastjpa.JpaDelete;
+import com.github.paganini2008.springworld.fastjpa.JpaPage;
 import com.github.paganini2008.springworld.fastjpa.JpaQuery;
 import com.github.paganini2008.springworld.fastjpa.JpaUpdate;
 import com.github.paganini2008.springworld.fastjpa.Model;
@@ -27,8 +29,8 @@ import com.github.paganini2008.springworld.fastjpa.ResultSetExtractor;
  * EntityDaoSupport
  * 
  * @author Jimmy Hoff
- * 
- * 
+ *
+ * @version 1.0
  */
 public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> implements EntityDao<E, ID> {
 
@@ -107,22 +109,22 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 
 	public <T extends Number> T sum(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
-		return select().filter(filter).select(Fields.sum(property)).getSingleResult(requiredType);
+		return query(requiredType).filter(filter).one(Fields.sum(property));
 	}
 
 	public <T extends Number> T avg(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
-		return select().filter(filter).select(Fields.avg(property)).getSingleResult(requiredType);
+		return query(requiredType).filter(filter).one(Fields.avg(property));
 	}
 
 	public <T extends Comparable<T>> T min(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
-		return select().filter(filter).select(Fields.min(property)).getSingleResult(requiredType);
+		return query(requiredType).filter(filter).one(Fields.min(property));
 	}
 
 	public <T extends Comparable<T>> T max(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
-		return select().filter(filter).select(Fields.max(property)).getSingleResult(requiredType);
+		return query(requiredType).filter(filter).one(Fields.max(property));
 	}
 
 	public JpaDelete<E> delete() {
@@ -133,8 +135,16 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 		return update(entityClass);
 	}
 
-	public JpaQuery<E> select() {
-		return select(entityClass);
+	public JpaQuery<E, Tuple> query() {
+		return query(entityClass, Model.ROOT);
+	}
+
+	public <T> JpaQuery<E, T> query(Class<T> resultClass) {
+		return query(entityClass, Model.ROOT, resultClass);
+	}
+
+	public JpaPage<E, Tuple> select() {
+		return select(entityClass, Model.ROOT);
 	}
 
 	public Class<E> getEntityClass() {

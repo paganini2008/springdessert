@@ -1,5 +1,7 @@
 package com.github.paganini2008.springworld.fastjpa;
 
+import javax.persistence.criteria.CriteriaQuery;
+
 /**
  * 
  * JpaGroupBy
@@ -8,28 +10,32 @@ package com.github.paganini2008.springworld.fastjpa;
  *
  * @version 1.0
  */
-public interface JpaGroupBy<E> {
+public interface JpaGroupBy<E, T> {
 
-	JpaGroupBy<E> having(Filter expression);
+	JpaGroupBy<E, T> having(Filter expression);
 
-	default JpaResultSet<E> select(String... attributeNames) {
+	default JpaQueryResultSet<T> select(String... attributeNames) {
 		return select(new ColumnList().addColumns(attributeNames));
 	}
 
-	default JpaResultSet<E> select(String alias, String[] attributeNames) {
+	default JpaQueryResultSet<T> select(String alias, String[] attributeNames) {
 		return select(new ColumnList().addColumns(alias, attributeNames));
 	}
 
-	default JpaResultSet<E> select(Column... columns) {
+	default JpaQueryResultSet<T> select(Column... columns) {
 		return select(new ColumnList(columns));
 	}
 
-	default JpaResultSet<E> select(Field<?>... fields) {
+	default JpaQueryResultSet<T> select(Field<?>... fields) {
 		return select(new ColumnList().addColumns(fields));
 	}
 
-	JpaResultSet<E> select(ColumnList columnList);
+	JpaQueryResultSet<T> select(ColumnList columnList);
 
-	JpaGroupBy<E> sort(JpaSort... sorts);
+	JpaGroupBy<E, T> sort(JpaSort... sorts);
+
+	CriteriaQuery<T> query();
+	
+	Model<E> model();
 
 }

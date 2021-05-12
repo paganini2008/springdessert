@@ -8,6 +8,7 @@ import javax.persistence.criteria.Subquery;
 /**
  * 
  * JpaDeleteImpl
+ * 
  * @author Jimmy Hoff
  *
  * @version 1.0
@@ -26,6 +27,7 @@ public class JpaDeleteImpl<E> implements JpaDelete<E> {
 		this.customUpdate = customUpdate;
 	}
 
+	@Override
 	public JpaDelete<E> filter(Filter filter) {
 		if (filter != null) {
 			delete.where(filter.toPredicate(model, builder));
@@ -33,12 +35,14 @@ public class JpaDeleteImpl<E> implements JpaDelete<E> {
 		return this;
 	}
 
+	@Override
 	public <X> JpaSubQuery<X, X> subQuery(Class<X> entityClass) {
 		Subquery<X> subquery = delete.subquery(entityClass);
 		Root<X> root = subquery.from(entityClass);
 		return new JpaSubQueryImpl<X, X>(Model.forRoot(root), subquery, builder);
 	}
 
+	@Override
 	public int execute() {
 		return customUpdate.executeUpdate((CriteriaBuilder builder) -> {
 			return delete;

@@ -1,7 +1,5 @@
 package com.github.paganini2008.springworld.fastjpa;
 
-import javax.persistence.Tuple;
-
 /**
  * 
  * TransformerPostHandler
@@ -9,8 +7,8 @@ import javax.persistence.Tuple;
  * @author Jimmy Hoff
  * @version 1.0
  */
-public interface TransformerPostHandler<T> {
+public interface TransformerPostHandler<T, R> {
 
-	void handleAfterTransferring(Tuple tuple, T output);
+	void handleAfterTransferring(Model<?> model, T original, R destination);
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
@@ -18,9 +19,9 @@ import javax.persistence.criteria.Subquery;
  *
  * @since 1.0
  */
-public class JpaQueryImpl<E> implements JpaQuery<E> {
+public class JpaQueryImpl<E, T> implements JpaQuery<E, T> {
 
-	JpaQueryImpl(Model<E> model, PagingCriteriaQuery query, CriteriaBuilder builder, JpaCustomQuery<?> customQuery) {
+	JpaQueryImpl(Model<E> model, CriteriaQuery<T> query, CriteriaBuilder builder, JpaCustomQuery<?> customQuery) {
 		this.model = model;
 		this.query = query;
 		this.builder = builder;
@@ -28,26 +29,29 @@ public class JpaQueryImpl<E> implements JpaQuery<E> {
 	}
 
 	private final Model<E> model;
-	private final PagingCriteriaQuery query;
+	private final CriteriaQuery<T> query;
 	private final CriteriaBuilder builder;
 	private final JpaCustomQuery<?> customQuery;
 
-	public JpaQuery<E> filter(Filter filter) {
+	@Override
+	public JpaQuery<E, T> filter(Filter filter) {
 		if (filter != null) {
 			query.where(filter.toPredicate(model, builder));
 		}
 		return this;
 	}
 
-	public JpaGroupBy<E> groupBy(FieldList fieldList) {
+	@Override
+	public JpaGroupBy<E, T> groupBy(FieldList fieldList) {
 		List<Expression<?>> paths = new ArrayList<Expression<?>>();
 		for (Field<?> field : fieldList) {
 			paths.add(field.toExpression(model, builder));
 		}
 		query.groupBy(paths);
-		return new JpaGroupByImpl<E>(model, query, builder, new JpaResultSetImpl<E>(model, query, customQuery));
+		return new JpaGroupByImpl<E, T>(model, query, builder, customQuery);
 	}
 
+	@Override
 	public <X> JpaSubQuery<X, X> subQuery(Class<X> entityClass, String alias) {
 		Subquery<X> subquery = query.subquery(entityClass);
 		Root<X> root = subquery.from(entityClass);
@@ -55,14 +59,16 @@ public class JpaQueryImpl<E> implements JpaQuery<E> {
 		return new JpaSubQueryImpl<X, X>(model, subquery.select(root), builder);
 	}
 
-	public <X, T> JpaSubQuery<X, T> subQuery(Class<X> entityClass, String alias, Class<T> resultClass) {
-		Subquery<T> subquery = query.subquery(resultClass);
+	@Override
+	public <X, Y> JpaSubQuery<X, Y> subQuery(Class<X> entityClass, String alias, Class<Y> resultClass) {
+		Subquery<Y> subquery = query.subquery(resultClass);
 		Root<X> root = subquery.from(entityClass);
 		Model<X> model = this.model.sibling(Model.forRoot(root, alias));
-		return new JpaSubQueryImpl<X, T>(model, subquery, builder);
+		return new JpaSubQueryImpl<X, Y>(model, subquery, builder);
 	}
 
-	public JpaResultSet<E> selectAlias(String... tableAlias) {
+	@Override
+	public JpaQueryResultSet<T> selectAlias(String... tableAlias) {
 		if (tableAlias != null) {
 			List<Selection<?>> selections = new ArrayList<Selection<?>>();
 			for (String alias : tableAlias) {
@@ -70,10 +76,11 @@ public class JpaQueryImpl<E> implements JpaQuery<E> {
 			}
 			query.multiselect(selections);
 		}
-		return new JpaResultSetImpl<E>(model, query, customQuery);
+		return new JpaQueryResultSetImpl<T>(model, query, customQuery);
 	}
 
-	public JpaResultSet<E> select(ColumnList columnList) {
+	@Override
+	public JpaQueryResultSet<T> select(ColumnList columnList) {
 		if (columnList != null) {
 			List<Selection<?>> selections = new ArrayList<Selection<?>>();
 			for (Column column : columnList) {
@@ -81,10 +88,17 @@ public class JpaQueryImpl<E> implements JpaQuery<E> {
 			}
 			query.multiselect(selections);
 		}
-		return new JpaResultSetImpl<E>(model, query, customQuery);
+		return new JpaQueryResultSetImpl<T>(model, query, customQuery);
 	}
 
-	public JpaQuery<E> sort(JpaSort... sorts) {
+	@Override
+	public T one(Column column) {
+		query.multiselect(column.toSelection(model, builder));
+		return customQuery.getSingleResult(builder -> query);
+	}
+
+	@Override
+	public JpaQuery<E, T> sort(JpaSort... sorts) {
 		if (sorts != null) {
 			List<Order> orders = new ArrayList<Order>();
 			for (JpaSort sort : sorts) {
@@ -95,24 +109,38 @@ public class JpaQueryImpl<E> implements JpaQuery<E> {
 		return this;
 	}
 
-	public JpaQuery<E> distinct(boolean distinct) {
+	@Override
+	public JpaQuery<E, T> distinct(boolean distinct) {
 		query.distinct(distinct);
 		return this;
 	}
 
-	public <X> JpaQuery<X> join(String attributeName, String alias, Filter on) {
+	@Override
+	public <X> JpaQuery<X, T> join(String attributeName, String alias, Filter on) {
 		Model<X> join = model.join(attributeName, alias, on != null ? on.toPredicate(model, builder) : null);
-		return new JpaQueryImpl<X>(join, query, builder, customQuery);
+		return new JpaQueryImpl<X, T>(join, query, builder, customQuery);
 	}
 
-	public <X> JpaQuery<X> leftJoin(String attributeName, String alias, Filter on) {
+	@Override
+	public <X> JpaQuery<X, T> leftJoin(String attributeName, String alias, Filter on) {
 		Model<X> join = model.leftJoin(attributeName, alias, on != null ? on.toPredicate(model, builder) : null);
-		return new JpaQueryImpl<X>(join, query, builder, customQuery);
+		return new JpaQueryImpl<X, T>(join, query, builder, customQuery);
 	}
 
-	public <X> JpaQuery<X> rightJoin(String attributeName, String alias, Filter on) {
+	@Override
+	public <X> JpaQuery<X, T> rightJoin(String attributeName, String alias, Filter on) {
 		Model<X> join = model.rightJoin(attributeName, alias, on != null ? on.toPredicate(model, builder) : null);
-		return new JpaQueryImpl<X>(join, query, builder, customQuery);
+		return new JpaQueryImpl<X, T>(join, query, builder, customQuery);
+	}
+
+	@Override
+	public CriteriaQuery<T> query() {
+		return query;
+	}
+
+	@Override
+	public Model<E> model() {
+		return model;
 	}
 
 }

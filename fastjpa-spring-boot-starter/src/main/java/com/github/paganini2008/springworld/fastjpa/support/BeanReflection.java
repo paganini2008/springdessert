@@ -4,12 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.paganini2008.devtools.beans.PropertyUtils;
 import com.github.paganini2008.devtools.reflection.ConstructorUtils;
 import com.github.paganini2008.devtools.reflection.FieldUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -18,11 +17,10 @@ import com.github.paganini2008.devtools.reflection.FieldUtils;
  * @author Jimmy Hoff
  * @version 1.0
  */
-public class BeanReflection<T> {
+@Slf4j
+public final class BeanReflection<T> {
 
-	private static final Logger logger = LoggerFactory.getLogger(BeanReflection.class);
-
-	public BeanReflection(Class<T> requiredType, String... includedProperties) {
+	public BeanReflection(Class<T> requiredType, String[] includedProperties) {
 		this.requiredType = requiredType;
 		if (includedProperties != null && includedProperties.length > 0) {
 			includedPropertyNames = new HashSet<String>(Arrays.asList(includedProperties));
@@ -41,8 +39,8 @@ public class BeanReflection<T> {
 				try {
 					FieldUtils.writeField(object, propertyName, attributeValue);
 				} catch (Exception ignored) {
-					if (logger.isTraceEnabled()) {
-						logger.trace("Attribute '{}' cannot be assigned value.", requiredType.getName() + "#" + propertyName);
+					if (log.isTraceEnabled()) {
+						log.trace("Attribute '{}' cannot be assigned value.", requiredType.getName() + "#" + propertyName);
 					}
 				}
 			}

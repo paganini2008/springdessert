@@ -350,6 +350,30 @@ public abstract class Fields {
 		};
 	}
 
+	public static Field<java.sql.Date> currentDate() {
+		return new Field<java.sql.Date>() {
+			public Expression<java.sql.Date> toExpression(Model<?> model, CriteriaBuilder builder) {
+				return builder.currentDate();
+			}
+
+			public String toString() {
+				return "current_date()";
+			}
+		};
+	}
+
+	public static Field<java.sql.Time> currentTime() {
+		return new Field<java.sql.Time>() {
+			public Expression<java.sql.Time> toExpression(Model<?> model, CriteriaBuilder builder) {
+				return builder.currentTime();
+			}
+
+			public String toString() {
+				return "current_time()";
+			}
+		};
+	}
+
 	public static Field<Timestamp> currentTimestamp() {
 		return new Field<Timestamp>() {
 			public Expression<Timestamp> toExpression(Model<?> model, CriteriaBuilder builder) {

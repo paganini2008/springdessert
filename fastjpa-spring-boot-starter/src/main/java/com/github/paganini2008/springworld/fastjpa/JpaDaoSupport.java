@@ -31,6 +31,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 
 	protected final EntityManager em;
 
+	@Override
 	public <T> T getSingleResult(JpaQueryCallback<T> callback) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = callback.doInJpa(builder);
@@ -38,6 +39,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return typedQuery.getSingleResult();
 	}
 
+	@Override
 	public <T> List<T> getResultList(JpaQueryCallback<T> callback) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = callback.doInJpa(builder);
@@ -45,6 +47,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return typedQuery.getResultList();
 	}
 
+	@Override
 	public <T> List<T> getResultList(JpaQueryCallback<T> callback, int maxResults, int firstResult) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = callback.doInJpa(builder);
@@ -58,6 +61,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return typedQuery.getResultList();
 	}
 
+	@Override
 	public int executeUpdate(JpaDeleteCallback<E> callback) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaDelete<E> delete = callback.doInJpa(builder);
@@ -65,6 +69,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return query.executeUpdate();
 	}
 
+	@Override
 	public int executeUpdate(JpaUpdateCallback<E> callback) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaUpdate<E> update = callback.doInJpa(builder);
@@ -72,6 +77,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return query.executeUpdate();
 	}
 
+	@Override
 	public JpaUpdate<E> update(Class<E> entityClass) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaUpdate<E> update = builder.createCriteriaUpdate(entityClass);
@@ -79,6 +85,7 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return new JpaUpdateImpl<E>(new RootModel<E>(root, Model.ROOT, em.getMetamodel()), update, builder, this);
 	}
 
+	@Override
 	public JpaDelete<E> delete(Class<E> entityClass) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaDelete<E> delete = builder.createCriteriaDelete(entityClass);
@@ -86,11 +93,24 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return new JpaDeleteImpl<E>(new RootModel<E>(root, Model.ROOT, em.getMetamodel()), delete, builder, this);
 	}
 
-	public JpaQuery<E> select(Class<E> entityClass, String alias) {
+	public JpaQuery<E, Tuple> query(Class<E> entityClass, String alias) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		Root<E> root = query.from(entityClass);
-		return new JpaQueryImpl<E>(new RootModel<E>(root, alias, em.getMetamodel()), new PagingCriteriaQuery(query), builder, this);
+		return new JpaQueryImpl<E, Tuple>(new RootModel<E>(root, alias, em.getMetamodel()), query, builder, this);
+	}
+
+	public <T> JpaQuery<E, T> query(Class<E> entityClass, String alias, Class<T> resultClass) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<T> query = builder.createQuery(resultClass);
+		Root<E> root = query.from(entityClass);
+		return new JpaQueryImpl<E, T>(new RootModel<E>(root, alias, em.getMetamodel()), query, builder, this);
+	}
+
+	public <T> JpaPage<E, Tuple> select(Class<E> entityClass, String alias) {
+		JpaQuery<E, Tuple> query = query(entityClass, alias);
+		JpaQuery<E, Long> counter = query(entityClass, alias, Long.class);
+		return new JpaPageImpl<E, Tuple>(query, counter, this);
 	}
 
 }

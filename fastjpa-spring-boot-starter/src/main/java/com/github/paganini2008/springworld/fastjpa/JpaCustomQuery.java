@@ -11,12 +11,6 @@ import java.util.List;
  */
 public interface JpaCustomQuery<X> {
 
-	default JpaQuery<X> select(Class<X> domainClass) {
-		return select(domainClass, Model.ROOT);
-	}
-
-	JpaQuery<X> select(Class<X> domainClass, String alias);
-
 	<T> T getSingleResult(JpaQueryCallback<T> callback);
 
 	<T> List<T> getResultList(JpaQueryCallback<T> callback);

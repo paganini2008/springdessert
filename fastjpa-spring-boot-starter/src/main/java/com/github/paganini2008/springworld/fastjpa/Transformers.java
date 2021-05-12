@@ -5,8 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.paganini2008.devtools.collection.Tuple;
-import com.github.paganini2008.springworld.fastjpa.support.BeanTransformer;
+import javax.persistence.criteria.Selection;
 
 /**
  * 
@@ -17,25 +16,49 @@ import com.github.paganini2008.springworld.fastjpa.support.BeanTransformer;
  */
 public abstract class Transformers {
 
-	public static <E> Transformer<E, Map<String, Object>> asMap() {
-		return new MapTransformer<E>();
+	public static <T> Transformer<T, T> noop() {
+		return new NoopTransformer<T>();
 	}
 
-	public static <E> Transformer<E, Tuple> asTuple() {
-		return new TupleTransformer<E>();
+	public static <T> Transformer<T, Map<String, Object>> asMap() {
+		return new MapTransformer<T>();
 	}
 
-	public static <E> Transformer<E, List<Object>> asList() {
-		return new ListTransformer<E>();
+	public static <T> Transformer<T, List<Object>> asList() {
+		return new ListTransformer<T>();
 	}
 
-	public static <E, T> Transformer<E, T> asBean(Class<T> resultClass, String... includedProperties) {
-		return new BeanTransformer<E, T>(resultClass, includedProperties);
+	public static <T, R> Transformer<T, R> asBean(Class<R> resultClass) {
+		return asBean(resultClass, null);
 	}
 
-	public static <E, T> Transformer<E, T> asBean(Class<T> resultClass, String[] includedProperties,
-			TransformerPostHandler<T> postHandler) {
-		return new BeanTransformer<E, T>(resultClass, includedProperties, postHandler);
+	public static <T, R> Transformer<T, R> asBean(Class<R> resultClass, TransformerPostHandler<T, R> postHandler) {
+		return asBean(resultClass, new String[0], postHandler);
+	}
+
+	public static <T, R> Transformer<T, R> asBean(Class<R> resultClass, String[] includedProperties,
+			TransformerPostHandler<T, R> postHandler) {
+		return new BeanPropertyTransformer<T, R>(resultClass, includedProperties, postHandler);
+	}
+
+	/**
+	 * 
+	 * NoopTransformer
+	 * 
+	 * @author Jimmy Hoff
+	 *
+	 * @version 1.0
+	 */
+	public static class NoopTransformer<T> implements Transformer<T, T> {
+
+		NoopTransformer() {
+		}
+
+		@Override
+		public T transfer(Model<?> model, List<Selection<?>> selections, T value) {
+			return value;
+		}
+
 	}
 
 	/**
@@ -46,40 +69,20 @@ public abstract class Transformers {
 	 *
 	 * @version 1.0
 	 */
-	public static class MapTransformer<E> extends SimpleTransformerSupport<E, Map<String, Object>> {
+	public static class MapTransformer<T> extends AbstractTransformer<T, Map<String, Object>> {
 
 		MapTransformer() {
 		}
 
-		protected Map<String, Object> createObject(int columns) {
-			return new LinkedHashMap<String, Object>(columns);
+		@Override
+		protected Map<String, Object> createObject(Model<?> model, List<Selection<?>> selections, T original) {
+			return new LinkedHashMap<String, Object>(selections.size());
 		}
 
-		protected void setAsValue(String attributeName, Object attributeValue, Map<String, Object> data) {
+		@Override
+		protected void writeValue(Model<?> model, String attributeName, Class<?> attributeType, Object attributeValue,
+				Map<String, Object> data) {
 			data.put(attributeName, attributeValue);
-		}
-
-	}
-
-	/**
-	 * 
-	 * TupleTransformer
-	 * 
-	 * @author Jimmy Hoff
-	 *
-	 * @version 1.0
-	 */
-	public static class TupleTransformer<E> extends SimpleTransformerSupport<E, Tuple> {
-
-		TupleTransformer() {
-		}
-
-		protected Tuple createObject(int columns) {
-			return Tuple.newTuple();
-		}
-
-		protected void setAsValue(String attributeName, Object attributeValue, Tuple data) {
-			data.set(attributeName, attributeValue);
 		}
 
 	}
@@ -92,17 +95,20 @@ public abstract class Transformers {
 	 *
 	 * @version 1.0
 	 */
-	public static class ListTransformer<E> extends SimpleTransformerSupport<E, List<Object>> {
+	public static class ListTransformer<T> extends AbstractTransformer<T, List<Object>> {
 
 		ListTransformer() {
 		}
 
-		protected List<Object> createObject(int columns) {
-			return new ArrayList<Object>(columns);
+		@Override
+		protected List<Object> createObject(Model<?> model, List<Selection<?>> selections, T original) {
+			return new ArrayList<Object>(selections.size());
 		}
 
-		protected void setAsValue(String attributeName, Object attributeValue, List<Object> data) {
-			data.add(attributeValue);
+		@Override
+		protected void writeValue(Model<?> model, String attributeName, Class<?> attributeType, Object attributeValue,
+				List<Object> dataList) {
+			dataList.add(attributeValue);
 		}
 
 	}

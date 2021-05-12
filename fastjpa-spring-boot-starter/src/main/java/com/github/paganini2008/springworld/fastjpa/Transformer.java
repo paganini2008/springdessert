@@ -2,7 +2,6 @@ package com.github.paganini2008.springworld.fastjpa;
 
 import java.util.List;
 
-import javax.persistence.Tuple;
 import javax.persistence.criteria.Selection;
 
 /**
@@ -12,8 +11,8 @@ import javax.persistence.criteria.Selection;
  * @author Jimmy Hoff
  * @version 1.0
  */
-public interface Transformer<E, T> {
+public interface Transformer<T, R> {
 
-	T transfer(Model<E> model, List<Selection<?>> selections, Tuple tuple);
+	R transfer(Model<?> model, List<Selection<?>> selections, T value);
 
 }

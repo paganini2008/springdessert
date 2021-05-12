@@ -7,26 +7,44 @@ package com.github.paganini2008.springworld.fastjpa;
  * @author Jimmy Hoff
  * @version 1.0
  */
-public interface JpaSubQuery<E, T> extends JpaSubJoin<T>, SubQueryBuilder<T> {
+public interface JpaSubQuery<X, Y> extends SubQueryBuilder<Y> {
 
-	JpaSubQuery<E, T> filter(Filter filter);
+	JpaSubQuery<X, Y> filter(Filter filter);
 
-	default JpaSubGroupBy<E, T> groupBy(String alias, String... attributeNames) {
+	default JpaSubGroupBy<X, Y> groupBy(String alias, String... attributeNames) {
 		return groupBy(new FieldList().addFields(alias, attributeNames));
 	}
 
-	default JpaSubGroupBy<E, T> groupBy(Field<?>... fields) {
+	default JpaSubGroupBy<X, Y> groupBy(Field<?>... fields) {
 		return groupBy(new FieldList(fields));
 	}
 
-	JpaSubGroupBy<E, T> groupBy(FieldList fieldList);
+	JpaSubGroupBy<X, Y> groupBy(FieldList fieldList);
 
-	default JpaSubQuery<E, T> select(String attributeName) {
+	default JpaSubQuery<X, Y> select(String attributeName) {
 		return select(null, attributeName);
 	}
 
-	JpaSubQuery<E, T> select(String alias, String attributeName);
+	JpaSubQuery<X, Y> select(String alias, String attributeName);
 
-	JpaSubQuery<E, T> select(Field<T> field);
+	JpaSubQuery<X, Y> select(Field<Y> field);
+
+	default <Z> JpaSubQuery<Z, Y> join(String attributeName, String alias) {
+		return join(attributeName, alias, null);
+	}
+
+	default <Z> JpaSubQuery<Z, Y> leftJoin(String attributeName, String alias) {
+		return leftJoin(attributeName, alias, null);
+	}
+
+	default <Z> JpaSubQuery<Z, Y> rightJoin(String attributeName, String alias) {
+		return rightJoin(attributeName, alias, null);
+	}
+
+	<Z> JpaSubQuery<Z, Y> join(String attributeName, String alias, Filter on);
+
+	<Z> JpaSubQuery<Z, Y> leftJoin(String attributeName, String alias, Filter on);
+
+	<Z> JpaSubQuery<Z, Y> rightJoin(String attributeName, String alias, Filter on);
 
 }

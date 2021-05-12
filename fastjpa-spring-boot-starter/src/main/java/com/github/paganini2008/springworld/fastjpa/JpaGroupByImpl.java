@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Selection;
-
-import com.github.paganini2008.devtools.jdbc.PageRequest;
-import com.github.paganini2008.devtools.jdbc.PageResponse;
-import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
 
 /**
  * 
@@ -19,26 +16,26 @@ import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
  *
  * @since 1.0
  */
-public class JpaGroupByImpl<E> implements JpaGroupBy<E>, JpaResultSet<E> {
+public class JpaGroupByImpl<E, T> implements JpaGroupBy<E, T> {
 
 	private final Model<E> model;
-	private final PagingCriteriaQuery query;
+	private final CriteriaQuery<T> query;
 	private final CriteriaBuilder builder;
-	private final JpaResultSet<E> resultSet;
+	private final JpaCustomQuery<?> customQuery;
 
-	JpaGroupByImpl(Model<E> model, PagingCriteriaQuery query, CriteriaBuilder builder, JpaResultSet<E> resultSet) {
+	JpaGroupByImpl(Model<E> model, CriteriaQuery<T> query, CriteriaBuilder builder, JpaCustomQuery<?> customQuery) {
 		this.model = model;
 		this.query = query;
 		this.builder = builder;
-		this.resultSet = resultSet;
+		this.customQuery = customQuery;
 	}
 
-	public JpaGroupBy<E> having(Filter filter) {
+	public JpaGroupBy<E, T> having(Filter filter) {
 		query.having(filter.toPredicate(model, builder));
 		return this;
 	}
 
-	public JpaResultSet<E> select(ColumnList columnList) {
+	public JpaQueryResultSet<T> select(ColumnList columnList) {
 		if (columnList != null) {
 			List<Selection<?>> selections = new ArrayList<Selection<?>>();
 			for (Column column : columnList) {
@@ -46,10 +43,10 @@ public class JpaGroupByImpl<E> implements JpaGroupBy<E>, JpaResultSet<E> {
 			}
 			query.multiselect(selections);
 		}
-		return this;
+		return new JpaQueryResultSetImpl<T>(model, query, customQuery);
 	}
 
-	public JpaGroupBy<E> sort(JpaSort... sorts) {
+	public JpaGroupBy<E, T> sort(JpaSort... sorts) {
 		List<Order> orders = new ArrayList<Order>();
 		for (JpaSort sort : sorts) {
 			orders.add(sort.toOrder(model, builder));
@@ -60,24 +57,14 @@ public class JpaGroupByImpl<E> implements JpaGroupBy<E>, JpaResultSet<E> {
 		return this;
 	}
 
-	public <T> T getSingleResult(Class<T> requiredType) {
-		return resultSet.getSingleResult(requiredType);
+	@Override
+	public CriteriaQuery<T> query() {
+		return query;
 	}
 
-	public int rowCount() {
-		return resultSet.rowCount();
-	}
-
-	public List<E> list(int maxResults, int firstResult) {
-		return resultSet.list(maxResults, firstResult);
-	}
-
-	public PageResponse<E> list(PageRequest pageRequest) {
-		return resultSet.list(pageRequest);
-	}
-
-	public <T> ResultSetSlice<T> setTransformer(Transformer<E, T> transformer) {
-		return resultSet.setTransformer(transformer);
+	@Override
+	public Model<E> model() {
+		return model;
 	}
 
 }
