@@ -79,27 +79,6 @@ public abstract class AbstractTransformer<T, R> implements Transformer<T, R> {
 		return destination;
 	}
 
-	protected void setAttributeValue(Model<?> model, String attributeName, Class<?> attributeType, T original, R destination) {
-		final Object result = readValue(model, attributeName, attributeType, original);
-		if (model.isManaged(attributeType)) {
-			String realAttributeName;
-			Object attributeValue;
-			for (JpaAttributeDetail attributeDetail : model.getAttributeDetails(attributeName)) {
-				realAttributeName = attributeDetail.getName();
-				try {
-					attributeValue = PropertyUtils.getProperty(result, realAttributeName);
-					writeValue(model, realAttributeName, attributeDetail.getJavaType(), attributeValue, destination);
-				} catch (Exception ignored) {
-					if (log.isTraceEnabled()) {
-						log.trace("'{}' cannot be set value.", attributeType + "#" + realAttributeName);
-					}
-				}
-			}
-		} else {
-			writeValue(model, attributeName, attributeType, result, destination);
-		}
-	}
-
 	protected Object readValue(Model<?> model, String attributeName, Class<?> attributeType, T original) {
 		if (original instanceof Tuple) {
 			return ((Tuple) original).get(attributeName);
