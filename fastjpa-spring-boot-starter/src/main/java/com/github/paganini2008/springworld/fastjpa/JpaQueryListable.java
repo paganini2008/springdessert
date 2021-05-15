@@ -32,12 +32,19 @@ public class JpaQueryListable<T, R> implements Listable<R> {
 
 	@Override
 	public List<R> list(int maxResults, int firstResult) {
-		List<T> list = customQuery.getResultList(builder -> query, maxResults, firstResult);
 		List<R> results = new ArrayList<R>();
-		List<Selection<?>> selections = query.getSelection().getCompoundSelectionItems();
-		for (T t : list) {
-			R data = transformer.transfer(model, selections, t);
-			results.add(data);
+		List<T> list = customQuery.getResultList(builder -> query, maxResults, firstResult);
+		if (query.getResultType() == model.getRootType()) {
+			for (T original : list) {
+				R data = transformer.transfer(model, original);
+				results.add(data);
+			}
+		} else {
+			List<Selection<?>> selections = query.getSelection().getCompoundSelectionItems();
+			for (T original : list) {
+				R data = transformer.transfer(model, selections, original);
+				results.add(data);
+			}
 		}
 		return results;
 	}

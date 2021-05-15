@@ -53,10 +53,16 @@ public interface EntityDao<E, ID> extends JpaRepositoryImplementation<E, ID>, Na
 
 	JpaDelete<E> delete();
 
-	JpaQuery<E, Tuple> query();
+	JpaQuery<E, E> query();
 
 	<T> JpaQuery<E, T> query(Class<T> resultClass);
 
-	JpaPage<E, Tuple> select();
+	JpaQuery<E, Tuple> multiquery();
+
+	JpaPage<E, E> select();
+
+	<T> JpaPage<E, T> select(Class<T> resultClass);
+
+	JpaPage<E, Tuple> multiselect();
 
 }

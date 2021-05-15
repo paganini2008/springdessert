@@ -113,4 +113,10 @@ public class JpaDaoSupport<E, ID> extends SimpleJpaRepository<E, ID> implements 
 		return new JpaPageImpl<E, Tuple>(query, counter, this);
 	}
 
+	public <T> JpaPage<E, T> select(Class<E> entityClass, String alias, Class<T> resultClass) {
+		JpaQuery<E, T> query = query(entityClass, alias, resultClass);
+		JpaQuery<E, Long> counter = query(entityClass, alias, Long.class);
+		return new JpaPageImpl<E, T>(query, counter, this);
+	}
+
 }

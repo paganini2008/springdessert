@@ -11,6 +11,8 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
 
+import com.github.paganini2008.devtools.ArrayUtils;
+
 /**
  * 
  * JpaQueryImpl
@@ -68,8 +70,16 @@ public class JpaQueryImpl<E, T> implements JpaQuery<E, T> {
 	}
 
 	@Override
+	public JpaQueryResultSet<T> selectThis() {
+		if (query.getResultType() == model.getRootType()) {
+			return selectAlias(new String[0]);
+		}
+		return selectAlias(Model.ROOT);
+	}
+
+	@Override
 	public JpaQueryResultSet<T> selectAlias(String... tableAlias) {
-		if (tableAlias != null) {
+		if (ArrayUtils.isNotEmpty(tableAlias)) {
 			List<Selection<?>> selections = new ArrayList<Selection<?>>();
 			for (String alias : tableAlias) {
 				selections.addAll(model.getSelections(alias));
@@ -99,7 +109,7 @@ public class JpaQueryImpl<E, T> implements JpaQuery<E, T> {
 
 	@Override
 	public JpaQuery<E, T> sort(JpaSort... sorts) {
-		if (sorts != null) {
+		if (ArrayUtils.isNotEmpty(sorts)) {
 			List<Order> orders = new ArrayList<Order>();
 			for (JpaSort sort : sorts) {
 				orders.add(sort.toOrder(model, builder));

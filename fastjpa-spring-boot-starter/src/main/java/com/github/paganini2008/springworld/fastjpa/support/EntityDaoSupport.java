@@ -1,5 +1,7 @@
 package com.github.paganini2008.springworld.fastjpa.support;
 
+import static com.github.paganini2008.springworld.fastjpa.Model.ROOT;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -127,24 +129,44 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 		return query(requiredType).filter(filter).one(Fields.max(property));
 	}
 
+	@Override
 	public JpaDelete<E> delete() {
 		return delete(entityClass);
 	}
 
+	@Override
 	public JpaUpdate<E> update() {
 		return update(entityClass);
 	}
 
-	public JpaQuery<E, Tuple> query() {
-		return query(entityClass, Model.ROOT);
+	@Override
+	public JpaQuery<E, E> query() {
+		return query(entityClass, ROOT, entityClass);
 	}
 
+	@Override
 	public <T> JpaQuery<E, T> query(Class<T> resultClass) {
-		return query(entityClass, Model.ROOT, resultClass);
+		return query(entityClass, ROOT, resultClass);
 	}
 
-	public JpaPage<E, Tuple> select() {
-		return select(entityClass, Model.ROOT);
+	@Override
+	public JpaQuery<E, Tuple> multiquery() {
+		return query(entityClass, ROOT);
+	}
+
+	@Override
+	public JpaPage<E, E> select() {
+		return select(entityClass, ROOT, entityClass);
+	}
+
+	@Override
+	public <T> JpaPage<E, T> select(Class<T> resultClass) {
+		return select(entityClass, ROOT, resultClass);
+	}
+
+	@Override
+	public JpaPage<E, Tuple> multiselect() {
+		return select(entityClass, ROOT);
 	}
 
 	public Class<E> getEntityClass() {

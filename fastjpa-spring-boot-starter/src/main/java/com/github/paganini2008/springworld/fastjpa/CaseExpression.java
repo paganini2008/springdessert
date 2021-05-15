@@ -22,9 +22,6 @@ public class CaseExpression<R> implements Field<R> {
 	private R defaultResult;
 	private Field<R> defaultFieldResult;
 
-	CaseExpression() {
-	}
-
 	public CaseExpression<R> when(Field<Boolean> condition, R result) {
 		conditions.add(condition);
 		results.add(result);

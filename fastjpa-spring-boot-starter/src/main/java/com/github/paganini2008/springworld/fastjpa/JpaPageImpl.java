@@ -41,6 +41,12 @@ public class JpaPageImpl<E, T> implements JpaPage<E, T> {
 	}
 
 	@Override
+	public JpaPageResultSet<T> selectThis() {
+		query.selectThis();
+		return new JpaPageResultSetImpl<T>(query.model(), query.query(), counter.query(), customQuery);
+	}
+
+	@Override
 	public JpaPageResultSet<T> selectAlias(String... tableAlias) {
 		query.selectAlias(tableAlias);
 		return new JpaPageResultSetImpl<T>(query.model(), query.query(), counter.query(), customQuery);

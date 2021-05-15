@@ -55,8 +55,13 @@ public abstract class Transformers {
 		}
 
 		@Override
-		public T transfer(Model<?> model, List<Selection<?>> selections, T value) {
-			return value;
+		public T transfer(Model<?> model, T original) {
+			return original;
+		}
+
+		@Override
+		public T transfer(Model<?> model, List<Selection<?>> selections, T original) {
+			return original;
 		}
 
 	}
@@ -75,8 +80,8 @@ public abstract class Transformers {
 		}
 
 		@Override
-		protected Map<String, Object> createObject(Model<?> model, List<Selection<?>> selections, T original) {
-			return new LinkedHashMap<String, Object>(selections.size());
+		protected Map<String, Object> createObject(Model<?> model, int selectionSize, T original) {
+			return new LinkedHashMap<String, Object>(selectionSize);
 		}
 
 		@Override
@@ -101,8 +106,8 @@ public abstract class Transformers {
 		}
 
 		@Override
-		protected List<Object> createObject(Model<?> model, List<Selection<?>> selections, T original) {
-			return new ArrayList<Object>(selections.size());
+		protected List<Object> createObject(Model<?> model, int selectionSize, T original) {
+			return new ArrayList<Object>(selectionSize);
 		}
 
 		@Override

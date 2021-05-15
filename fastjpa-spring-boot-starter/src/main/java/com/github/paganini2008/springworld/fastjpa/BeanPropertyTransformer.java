@@ -1,9 +1,5 @@
 package com.github.paganini2008.springworld.fastjpa;
 
-import java.util.List;
-
-import javax.persistence.criteria.Selection;
-
 import com.github.paganini2008.springworld.fastjpa.support.BeanReflection;
 
 /**
@@ -30,7 +26,7 @@ public class BeanPropertyTransformer<T, R> extends AbstractTransformer<T, R> {
 	}
 
 	@Override
-	protected R createObject(Model<?> model, List<Selection<?>> selections, T original) {
+	protected R createObject(Model<?> model, int selectionSize, T original) {
 		return beanReflection.instantiateBean();
 	}
 

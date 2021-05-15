@@ -3,11 +3,12 @@ package com.github.paganini2008.springworld.fastjpa;
 /**
  * 
  * JpaDelete
+ * 
  * @author Jimmy Hoff
  *
  * @version 1.0
  */
-public interface JpaDelete<E> extends Executable{
+public interface JpaDelete<E> extends Executable {
 
 	JpaDelete<E> filter(Filter filter);
 

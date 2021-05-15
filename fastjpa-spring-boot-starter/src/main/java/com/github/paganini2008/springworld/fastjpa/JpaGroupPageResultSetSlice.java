@@ -36,7 +36,7 @@ public class JpaGroupPageResultSetSlice<T, R> implements ResultSetSlice<R> {
 	@Override
 	public int rowCount() {
 		List<Long> list = customQuery.getResultList(builder -> {
-			counter.select(builder.toLong(builder.literal(1)));
+			counter.select(builder.count(builder.toInteger(builder.literal(1))));
 			return counter;
 		});
 		return list != null ? list.size() : 0;

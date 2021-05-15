@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
  */
 public interface JpaGroupBy<E, T> {
 
-	JpaGroupBy<E, T> having(Filter expression);
+	JpaGroupBy<E, T> having(Filter filter);
 
 	default JpaQueryResultSet<T> select(String... attributeNames) {
 		return select(new ColumnList().addColumns(attributeNames));

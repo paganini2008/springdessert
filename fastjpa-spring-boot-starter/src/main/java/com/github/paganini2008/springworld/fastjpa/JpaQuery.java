@@ -30,9 +30,7 @@ public interface JpaQuery<E, T> {
 
 	JpaGroupBy<E, T> groupBy(FieldList fieldList);
 
-	default JpaQueryResultSet<T> selectThis() {
-		return selectAlias(Model.ROOT);
-	}
+	JpaQueryResultSet<T> selectThis();
 
 	JpaQueryResultSet<T> selectAlias(String... tableAlias);
 
@@ -40,7 +38,7 @@ public interface JpaQuery<E, T> {
 		return select(new ColumnList().addColumns(attributeNames));
 	}
 
-	default JpaQueryResultSet<T> select(String alias, String... attributeNames) {
+	default JpaQueryResultSet<T> select(String alias, String[] attributeNames) {
 		return select(new ColumnList().addColumns(alias, attributeNames));
 	}
 

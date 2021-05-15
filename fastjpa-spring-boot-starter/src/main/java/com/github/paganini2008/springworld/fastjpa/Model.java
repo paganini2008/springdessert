@@ -48,6 +48,10 @@ public interface Model<X> {
 
 	List<Selection<?>> getSelections(String name);
 
+	default List<JpaAttributeDetail> getAttributeDetails() {
+		return getAttributeDetails(ROOT);
+	}
+
 	List<JpaAttributeDetail> getAttributeDetails(String name);
 
 	<Y> Model<Y> join(String attributeName, String alias, Predicate on);

@@ -35,21 +35,28 @@ public class JpaPageResultSetSlice<T, R> implements ResultSetSlice<R> {
 
 	@Override
 	public int rowCount() {
-		List<Long> list = customQuery.getResultList(builder -> {
-			counter.select(builder.toLong(builder.literal(1)));
+		Long result = customQuery.getSingleResult(builder -> {
+			counter.select(builder.count(builder.toInteger(builder.literal(1))));
 			return counter;
 		});
-		return list != null ? list.size() : 0;
+		return result != null ? result.intValue() : 0;
 	}
 
 	@Override
 	public List<R> list(int maxResults, int firstResult) {
-		List<T> list = customQuery.getResultList(builder -> query, maxResults, firstResult);
 		List<R> results = new ArrayList<R>();
-		List<Selection<?>> selections = query.getSelection().getCompoundSelectionItems();
-		for (T t : list) {
-			R data = transformer.transfer(model, selections, t);
-			results.add(data);
+		List<T> list = customQuery.getResultList(builder -> query, maxResults, firstResult);
+		if (query.getResultType() == model.getRootType()) {
+			for (T original : list) {
+				R data = transformer.transfer(model, original);
+				results.add(data);
+			}
+		} else {
+			List<Selection<?>> selections = query.getSelection().getCompoundSelectionItems();
+			for (T original : list) {
+				R data = transformer.transfer(model, selections, original);
+				results.add(data);
+			}
 		}
 		return results;
 	}

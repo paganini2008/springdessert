@@ -13,6 +13,8 @@ import javax.persistence.criteria.Selection;
  */
 public interface Transformer<T, R> {
 
-	R transfer(Model<?> model, List<Selection<?>> selections, T value);
+	R transfer(Model<?> model, T original);
+
+	R transfer(Model<?> model, List<Selection<?>> selections, T original);
 
 }

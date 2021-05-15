@@ -14,9 +14,7 @@ public interface JpaPage<E, T> {
 
 	JpaPage<E, T> sort(JpaSort... sorts);
 
-	default JpaPageResultSet<T> selectThis() {
-		return selectAlias(Model.ROOT);
-	}
+	JpaPageResultSet<T> selectThis();
 
 	JpaPageResultSet<T> selectAlias(String... tableAlias);
 
@@ -24,7 +22,7 @@ public interface JpaPage<E, T> {
 		return select(new ColumnList().addColumns(attributeNames));
 	}
 
-	default JpaPageResultSet<T> select(String alias, String... attributeNames) {
+	default JpaPageResultSet<T> select(String alias, String[] attributeNames) {
 		return select(new ColumnList().addColumns(alias, attributeNames));
 	}
 
