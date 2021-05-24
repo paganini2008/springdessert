@@ -40,6 +40,20 @@ public abstract class Restrictions {
 		});
 	}
 
+	public static <T extends Comparable<T>> LogicalFilter lt(String alias, String attributeName, SubQueryBuilder<T> subQuery) {
+		return lt(Property.forName(alias, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter lt(String attributeName, SubQueryBuilder<T> subQuery) {
+		return lt(Property.forName(null, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter lt(Field<T> field, SubQueryBuilder<T> subQuery) {
+		return create(field, (model, expression, builder) -> {
+			return builder.lessThan(expression, subQuery.toSubquery(builder));
+		});
+	}
+
 	public static <T extends Comparable<T>> LogicalFilter lt(Field<T> field, Field<T> otherField) {
 		return create(field, (model, expression, builder) -> {
 			return builder.lessThan(expression, otherField.toExpression(model, builder));
@@ -54,15 +68,29 @@ public abstract class Restrictions {
 		return gt(Property.forName(null, attributeName), value);
 	}
 
-	public static <T extends Comparable<T>> LogicalFilter gt(Field<T> field, Field<T> otherField) {
-		return create(field, (model, expression, builder) -> {
-			return builder.greaterThan(expression, otherField.toExpression(model, builder));
-		});
-	}
-
 	public static <T extends Comparable<T>> LogicalFilter gt(Field<T> field, T value) {
 		return create(field, (model, expression, builder) -> {
 			return builder.greaterThan(expression, value);
+		});
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gt(String alias, String attributeName, SubQueryBuilder<T> subQuery) {
+		return gt(Property.forName(alias, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gt(String attributeName, SubQueryBuilder<T> subQuery) {
+		return gt(Property.forName(null, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gt(Field<T> field, SubQueryBuilder<T> subQuery) {
+		return create(field, (model, expression, builder) -> {
+			return builder.greaterThan(expression, subQuery.toSubquery(builder));
+		});
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gt(Field<T> field, Field<T> otherField) {
+		return create(field, (model, expression, builder) -> {
+			return builder.greaterThan(expression, otherField.toExpression(model, builder));
 		});
 	}
 
@@ -77,6 +105,20 @@ public abstract class Restrictions {
 	public static <T extends Comparable<T>> LogicalFilter lte(Field<T> field, T value) {
 		return create(field, (model, expression, builder) -> {
 			return builder.lessThanOrEqualTo(expression, value);
+		});
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter lte(String alias, String attributeName, SubQueryBuilder<T> subQuery) {
+		return lte(Property.forName(alias, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter lte(String attributeName, SubQueryBuilder<T> subQuery) {
+		return lte(Property.forName(null, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter lte(Field<T> field, SubQueryBuilder<T> subQuery) {
+		return create(field, (model, expression, builder) -> {
+			return builder.lessThanOrEqualTo(expression, subQuery.toSubquery(builder));
 		});
 	}
 
@@ -97,6 +139,20 @@ public abstract class Restrictions {
 	public static <T extends Comparable<T>> LogicalFilter gte(Field<T> field, T value) {
 		return create(field, (model, expression, builder) -> {
 			return builder.greaterThanOrEqualTo(expression, value);
+		});
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gte(String alias, String attributeName, SubQueryBuilder<T> subQuery) {
+		return gte(Property.forName(alias, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gte(String attributeName, SubQueryBuilder<T> subQuery) {
+		return gte(Property.forName(null, attributeName), subQuery);
+	}
+
+	public static <T extends Comparable<T>> LogicalFilter gte(Field<T> field, SubQueryBuilder<T> subQuery) {
+		return create(field, (model, expression, builder) -> {
+			return builder.greaterThanOrEqualTo(expression, subQuery.toSubquery(builder));
 		});
 	}
 
@@ -134,6 +190,14 @@ public abstract class Restrictions {
 		});
 	}
 
+	public static LogicalFilter neProperty(String leftAttributeName, String rightAttributeName) {
+		return ne(Property.forName(leftAttributeName), Property.forName(rightAttributeName));
+	}
+
+	public static LogicalFilter neProperty(String leftAlias, String leftAttributeName, String rightAlias, String rightAttributeName) {
+		return ne(Property.forName(leftAlias, leftAttributeName), Property.forName(rightAlias, rightAttributeName));
+	}
+
 	public static <X, Y> LogicalFilter ne(Field<X> field, Field<Y> otherField) {
 		return create(field, (model, expression, builder) -> {
 			return builder.notEqual(expression, otherField.toExpression(model, builder));
@@ -168,6 +232,14 @@ public abstract class Restrictions {
 		});
 	}
 
+	public static LogicalFilter eqProperty(String leftAttributeName, String rightAttributeName) {
+		return eq(Property.forName(leftAttributeName), Property.forName(rightAttributeName));
+	}
+
+	public static LogicalFilter eqProperty(String leftAlias, String leftAttributeName, String rightAlias, String rightAttributeName) {
+		return eq(Property.forName(leftAlias, leftAttributeName), Property.forName(rightAlias, rightAttributeName));
+	}
+
 	public static <X, Y> LogicalFilter eq(Field<X> field, Field<Y> otherField) {
 		return create(field, (model, expression, builder) -> {
 			return builder.equal(expression, otherField.toExpression(model, builder));
@@ -188,6 +260,20 @@ public abstract class Restrictions {
 		});
 	}
 
+	public static LogicalFilter notLike(String alias, String attributeName, String pattern, char escapeChar) {
+		return notLike(Property.forName(alias, attributeName), pattern, escapeChar);
+	}
+
+	public static LogicalFilter notLike(String attributeName, String pattern, char escapeChar) {
+		return notLike(Property.forName(null, attributeName), pattern, escapeChar);
+	}
+
+	public static LogicalFilter notLike(Field<String> field, String pattern, char escapeChar) {
+		return create(field, (model, expression, builder) -> {
+			return builder.notLike(expression, pattern, escapeChar);
+		});
+	}
+
 	public static LogicalFilter like(String alias, String attributeName, String pattern) {
 		return like(Property.forName(alias, attributeName), pattern);
 	}
@@ -199,6 +285,20 @@ public abstract class Restrictions {
 	public static LogicalFilter like(Field<String> field, String pattern) {
 		return create(field, (model, expression, builder) -> {
 			return builder.like(expression, pattern);
+		});
+	}
+
+	public static LogicalFilter notLike(String alias, String attributeName, String pattern) {
+		return notLike(Property.forName(alias, attributeName), pattern);
+	}
+
+	public static LogicalFilter notLike(String attributeName, String pattern) {
+		return notLike(Property.forName(null, attributeName), pattern);
+	}
+
+	public static LogicalFilter notLike(Field<String> field, String pattern) {
+		return create(field, (model, expression, builder) -> {
+			return builder.notLike(expression, pattern);
 		});
 	}
 
@@ -288,6 +388,12 @@ public abstract class Restrictions {
 	public static <T> LogicalFilter isNull(Field<T> field) {
 		return create(field, (model, expression, builder) -> {
 			return builder.isNull(expression);
+		});
+	}
+
+	public static <T> LogicalFilter not(Field<Boolean> field) {
+		return create(field, (model, expression, builder) -> {
+			return builder.not(expression);
 		});
 	}
 

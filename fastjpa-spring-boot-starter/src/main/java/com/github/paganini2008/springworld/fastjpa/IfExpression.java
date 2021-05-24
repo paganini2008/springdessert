@@ -24,6 +24,14 @@ public class IfExpression<T, R> implements Field<R> {
 	private R defaultResult;
 	private Field<R> defaultFieldResult;
 
+	public IfExpression(String attributeName) {
+		this(Property.forName(attributeName));
+	}
+
+	public IfExpression(String alias, String attributeName) {
+		this(Property.forName(alias, attributeName));
+	}
+
 	public IfExpression(Field<T> field) {
 		this.field = field;
 	}

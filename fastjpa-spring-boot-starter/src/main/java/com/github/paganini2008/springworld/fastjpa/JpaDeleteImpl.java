@@ -44,9 +44,7 @@ public class JpaDeleteImpl<E> implements JpaDelete<E> {
 
 	@Override
 	public int execute() {
-		return customUpdate.executeUpdate((CriteriaBuilder builder) -> {
-			return delete;
-		});
+		return customUpdate.executeUpdate((CriteriaBuilder builder) -> delete);
 	}
 
 }

@@ -11,15 +11,15 @@ public interface JpaSubQuery<X, Y> extends SubQueryBuilder<Y> {
 
 	JpaSubQuery<X, Y> filter(Filter filter);
 
-	default JpaSubGroupBy<X, Y> groupBy(String alias, String... attributeNames) {
+	default JpaSubQueryGroupBy<X, Y> groupBy(String alias, String... attributeNames) {
 		return groupBy(new FieldList().addFields(alias, attributeNames));
 	}
 
-	default JpaSubGroupBy<X, Y> groupBy(Field<?>... fields) {
+	default JpaSubQueryGroupBy<X, Y> groupBy(Field<?>... fields) {
 		return groupBy(new FieldList(fields));
 	}
 
-	JpaSubGroupBy<X, Y> groupBy(FieldList fieldList);
+	JpaSubQueryGroupBy<X, Y> groupBy(FieldList fieldList);
 
 	default JpaSubQuery<X, Y> select(String attributeName) {
 		return select(null, attributeName);

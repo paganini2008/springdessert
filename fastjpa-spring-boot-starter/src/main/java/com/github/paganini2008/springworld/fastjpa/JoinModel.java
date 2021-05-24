@@ -13,6 +13,8 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+import com.github.paganini2008.devtools.StringUtils;
+
 /**
  * 
  * JoinModel
@@ -34,15 +36,18 @@ public class JoinModel<X, Y> implements Model<Y> {
 		this.model = model;
 	}
 
+	@Override
 	public Class<?> getRootType() {
 		return model.getRootType();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Class<Y> getType() {
 		return (Class<Y>) join.getAttribute().getJavaType();
 	}
 
+	@Override
 	public boolean isManaged(Class<?> type) {
 		if (getType().equals(type)) {
 			return true;
@@ -50,25 +55,35 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return model.isManaged(type);
 	}
 
+	@Override
 	public EntityType<Y> getEntityType() {
 		return metamodel.entity(getType());
 	}
 
+	@Override
+	public boolean hasAttribute(String name, String attributeName) {
+		return this.name.equals(name) && StringUtils.isNotBlank(attributeName) ? true : model.hasAttribute(name, attributeName);
+	}
+
+	@Override
 	public <T> Path<T> getAttribute(String attributeName) {
 		return join.get(attributeName);
 	}
 
+	@Override
 	public <T> Path<T> getAttribute(String name, String attributeName) {
-		if (this.name.equals(name)) {
+		if (this.name.equals(name) && StringUtils.isNotBlank(attributeName)) {
 			return join.get(attributeName);
 		}
 		return model.getAttribute(name, attributeName);
 	}
 
+	@Override
 	public Root<?> getRoot() {
 		return model.getRoot();
 	}
 
+	@Override
 	public List<Selection<?>> getSelections(String name) {
 		if (this.name.equals(name)) {
 			List<Selection<?>> selections = new ArrayList<>();
@@ -78,6 +93,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return model.getSelections(name);
 	}
 
+	@Override
 	public List<JpaAttributeDetail> getAttributeDetails(String name) {
 		if (this.name.equals(name)) {
 			List<JpaAttributeDetail> details = new ArrayList<JpaAttributeDetail>();
@@ -89,6 +105,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return model.getAttributeDetails(name);
 	}
 
+	@Override
 	public <Z> Model<Z> join(String attributeName, String name, Predicate on) {
 		Join<Y, Z> join = this.join.join(attributeName, JoinType.INNER);
 		if (on != null) {
@@ -97,6 +114,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, name, metamodel, this);
 	}
 
+	@Override
 	public <Z> Model<Z> leftJoin(String attributeName, String name, Predicate on) {
 		Join<Y, Z> join = this.join.join(attributeName, JoinType.LEFT);
 		if (on != null) {
@@ -105,6 +123,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, name, metamodel, this);
 	}
 
+	@Override
 	public <Z> Model<Z> rightJoin(String attributeName, String name, Predicate on) {
 		Join<Y, Z> join = this.join.join(attributeName, JoinType.RIGHT);
 		if (on != null) {
@@ -113,6 +132,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, name, metamodel, this);
 	}
 
+	@Override
 	public <S> Model<S> sibling(Model<S> sibling) {
 		return new SiblingModel<Y, S>(sibling, this);
 	}

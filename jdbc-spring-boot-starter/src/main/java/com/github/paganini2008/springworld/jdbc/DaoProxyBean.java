@@ -35,6 +35,7 @@ import com.github.paganini2008.devtools.collection.MapUtils;
 import com.github.paganini2008.devtools.converter.ConvertUtils;
 import com.github.paganini2008.devtools.jdbc.PageableSql;
 import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
+import com.github.paganini2008.devtools.primitives.Ints;
 import com.github.paganini2008.springworld.jdbc.annotations.Arg;
 import com.github.paganini2008.springworld.jdbc.annotations.Args;
 import com.github.paganini2008.springworld.jdbc.annotations.Batch;
@@ -76,10 +77,10 @@ public class DaoProxyBean<T> extends EnhancedJdbcDaoSupport implements Invocatio
 			return doUpdate(method, args);
 		} else if (method.isAnnotationPresent(Get.class)) {
 			return doGet(method, args);
-		} else if (method.isAnnotationPresent(Select.class)) {
-			return doSelect(method, args);
 		} else if (method.isAnnotationPresent(Query.class)) {
 			return doQuery(method, args);
+		} else if (method.isAnnotationPresent(Select.class)) {
+			return doSelect(method, args);
 		} else if (method.isAnnotationPresent(Batch.class)) {
 			return doBatch(method, args);
 		}
@@ -99,12 +100,12 @@ public class DaoProxyBean<T> extends EnhancedJdbcDaoSupport implements Invocatio
 		throw new UnsupportedOperationException(returnType.getTypeName());
 	}
 
-	private Object doSelect(Method method, Object[] args) throws Exception {
+	private Object doQuery(Method method, Object[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
 		if (!List.class.isAssignableFrom(method.getReturnType())) {
 			throw new IllegalArgumentException("Return type is only for List");
 		}
-		Select select = method.getAnnotation(Select.class);
+		Query select = method.getAnnotation(Query.class);
 		Class<?> elementType = getMethodReturnTypeElementType(method);
 		String sql = select.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
@@ -133,13 +134,13 @@ public class DaoProxyBean<T> extends EnhancedJdbcDaoSupport implements Invocatio
 		}
 	}
 
-	private Object doQuery(Method method, Object[] args) throws Exception {
+	private Object doSelect(Method method, Object[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
 		if (!ResultSetSlice.class.isAssignableFrom(method.getReturnType())) {
 			throw new IllegalArgumentException("Return type is only for ResultSetSlice");
 		}
 		Class<?> elementType = getMethodReturnTypeElementType(method);
-		final Query query = method.getAnnotation(Query.class);
+		final Select query = method.getAnnotation(Select.class);
 		StringBuilder sqlBuilder = new StringBuilder(query.value());
 		SqlParameterSource sqlParameterSource = getSqlParameterSource(method, args, sqlBuilder);
 		for (Class<?> listenerClass : query.listeners()) {
@@ -218,7 +219,7 @@ public class DaoProxyBean<T> extends EnhancedJdbcDaoSupport implements Invocatio
 		sql = sqlBuilder.toString();
 		try {
 			int[] effects = getNamedParameterJdbcTemplate().batchUpdate(sql, sqlParameterSources);
-			int effectedRows = effects != null ? effects.length : 0;
+			int effectedRows = effects.length > 0 ? Ints.sum(effects) : 0;
 			try {
 				return returnType.cast(effectedRows);
 			} catch (RuntimeException e) {

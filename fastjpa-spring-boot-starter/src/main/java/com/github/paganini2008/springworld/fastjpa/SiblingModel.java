@@ -27,26 +27,37 @@ public class SiblingModel<X, Y> implements Model<Y> {
 		this.model = model;
 	}
 
+	@Override
 	public EntityType<Y> getEntityType() {
 		return sibling.getEntityType();
 	}
 
+	@Override
 	public Class<?> getRootType() {
 		return sibling.getRootType();
 	}
 
+	@Override
 	public Class<Y> getType() {
 		return sibling.getType();
 	}
 
+	@Override
 	public boolean isManaged(Class<?> type) {
 		return getType().equals(type);
 	}
 
+	@Override
+	public boolean hasAttribute(String name, String attributeName) {
+		return sibling.hasAttribute(name, attributeName) ? true : model.hasAttribute(name, attributeName);
+	}
+
+	@Override
 	public <T> Path<T> getAttribute(String attributeName) {
 		return sibling.getAttribute(attributeName);
 	}
 
+	@Override
 	public <T> Path<T> getAttribute(String name, String attributeName) {
 		if (sibling.hasAttribute(name, attributeName)) {
 			return sibling.getAttribute(name, attributeName);
@@ -54,18 +65,22 @@ public class SiblingModel<X, Y> implements Model<Y> {
 		return model.getAttribute(name, attributeName);
 	}
 
+	@Override
 	public Root<?> getRoot() {
 		return model.getRoot();
 	}
 
+	@Override
 	public List<Selection<?>> getSelections(String name) {
 		return sibling.getSelections(name);
 	}
 
+	@Override
 	public List<JpaAttributeDetail> getAttributeDetails(String name) {
 		return sibling.getAttributeDetails(name);
 	}
 
+	@Override
 	public <Z> Model<Z> join(String attributeName, String alias, Predicate on) {
 		Join<Y, Z> join = this.sibling.getRoot().join(attributeName, JoinType.INNER);
 		if (on != null) {
@@ -74,6 +89,7 @@ public class SiblingModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, alias, null, this);
 	}
 
+	@Override
 	public <Z> Model<Z> leftJoin(String attributeName, String alias, Predicate on) {
 		Join<Y, Z> join = this.sibling.getRoot().join(attributeName, JoinType.LEFT);
 		if (on != null) {
@@ -82,6 +98,7 @@ public class SiblingModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, alias, null, this);
 	}
 
+	@Override
 	public <Z> Model<Z> rightJoin(String attributeName, String alias, Predicate on) {
 		Join<Y, Z> join = this.sibling.getRoot().join(attributeName, JoinType.RIGHT);
 		if (on != null) {
@@ -90,6 +107,7 @@ public class SiblingModel<X, Y> implements Model<Y> {
 		return new JoinModel<Y, Z>(join, alias, null, this);
 	}
 
+	@Override
 	public <S> Model<S> sibling(Model<S> sibling) {
 		return new SiblingModel<Y, S>(sibling, this);
 	}

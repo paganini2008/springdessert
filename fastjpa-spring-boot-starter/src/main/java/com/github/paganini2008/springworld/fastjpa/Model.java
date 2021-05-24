@@ -37,13 +37,12 @@ public interface Model<X> {
 
 	<T> Path<T> getAttribute(String name, String attributeName);
 
-	default boolean hasAttribute(String name, String attributeName) {
-		try {
-			getAttribute(name, attributeName);
-			return true;
-		} catch (RuntimeException ignored) {
-			return false;
-		}
+	boolean hasAttribute(String name, String attributeName);
+
+	@SuppressWarnings("unchecked")
+	default <T> Selection<T> getSelection() {
+		List<Selection<?>> selections = getSelections(ROOT);
+		return (Selection<T>) selections.get(0);
 	}
 
 	List<Selection<?>> getSelections(String name);

@@ -13,6 +13,8 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+import com.github.paganini2008.devtools.StringUtils;
+
 /**
  * 
  * RootModel
@@ -32,33 +34,45 @@ public class RootModel<X> implements Model<X> {
 		this.metamodel = metamodel;
 	}
 
+	@Override
+	public boolean hasAttribute(String name, String attributeName) {
+		return this.alias.equals(name) && StringUtils.isNotBlank(attributeName);
+	}
+
+	@Override
 	public <T> Path<T> getAttribute(String attributeName) {
 		return getAttribute(ROOT, attributeName);
 	}
 
+	@Override
 	public <T> Path<T> getAttribute(String name, String attributeName) {
-		if (this.alias.equals(name)) {
+		if (hasAttribute(name, attributeName)) {
 			return PathUtils.createPath(root, attributeName);
 		}
 		throw new PathMismatchedException(name, attributeName);
 	}
 
+	@Override
 	public Class<?> getRootType() {
 		return getType();
 	}
 
+	@Override
 	public Class<X> getType() {
 		return root.getModel().getBindableJavaType();
 	}
 
+	@Override
 	public EntityType<X> getEntityType() {
 		return root != null ? root.getModel() : null;
 	}
 
+	@Override
 	public boolean isManaged(Class<?> type) {
 		return getType().equals(type);
 	}
 
+	@Override
 	public <Y> Model<Y> join(String attributeName, String alias, Predicate on) {
 		Join<X, Y> join = root.join(attributeName, JoinType.INNER);
 		if (on != null) {
@@ -67,6 +81,7 @@ public class RootModel<X> implements Model<X> {
 		return new JoinModel<X, Y>(join, alias, metamodel, this);
 	}
 
+	@Override
 	public <Y> Model<Y> leftJoin(String attributeName, String alias, Predicate on) {
 		Join<X, Y> join = root.join(attributeName, JoinType.LEFT);
 		if (on != null) {
@@ -75,6 +90,7 @@ public class RootModel<X> implements Model<X> {
 		return new JoinModel<X, Y>(join, alias, metamodel, this);
 	}
 
+	@Override
 	public <Y> Model<Y> rightJoin(String attributeName, String alias, Predicate on) {
 		Join<X, Y> join = root.join(attributeName, JoinType.RIGHT);
 		if (on != null) {
@@ -83,10 +99,12 @@ public class RootModel<X> implements Model<X> {
 		return new JoinModel<X, Y>(join, alias, metamodel, this);
 	}
 
+	@Override
 	public Root<X> getRoot() {
 		return root;
 	}
 
+	@Override
 	public List<Selection<?>> getSelections(String name) {
 		if (!this.alias.equals(name)) {
 			throw new AliasMismatchedException(name);
@@ -96,6 +114,7 @@ public class RootModel<X> implements Model<X> {
 		return selections;
 	}
 
+	@Override
 	public List<JpaAttributeDetail> getAttributeDetails(String name) {
 		if (!this.alias.equals(name)) {
 			throw new AliasMismatchedException(name);
@@ -107,6 +126,7 @@ public class RootModel<X> implements Model<X> {
 		return details;
 	}
 
+	@Override
 	public <S> Model<S> sibling(Model<S> sibling) {
 		return new SiblingModel<X, S>(sibling, this);
 	}

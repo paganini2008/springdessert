@@ -26,10 +26,12 @@ public class JpaQueryResultSetImpl<T> implements JpaQueryResultSet<T> {
 		this.customQuery = customQuery;
 	}
 
+	@Override
 	public List<T> list(int maxResults, int firstResult) {
 		return customQuery.getResultList(builder -> query, maxResults, firstResult);
 	}
 
+	@Override
 	public <R> Listable<R> setTransformer(Transformer<T, R> transformer) {
 		return new JpaQueryListable<T, R>(model, query, customQuery, transformer);
 	}

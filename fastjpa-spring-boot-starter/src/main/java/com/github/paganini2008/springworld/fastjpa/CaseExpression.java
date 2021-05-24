@@ -36,12 +36,14 @@ public class CaseExpression<R> implements Field<R> {
 		return this;
 	}
 
-	public void otherwise(R result) {
+	public CaseExpression<R> otherwise(R result) {
 		this.defaultResult = result;
+		return this;
 	}
 
-	public void otherwise(Field<R> otherwise) {
+	public CaseExpression<R> otherwise(Field<R> otherwise) {
 		this.defaultFieldResult = otherwise;
+		return this;
 	}
 
 	public Expression<R> toExpression(Model<?> model, CriteriaBuilder builder) {
@@ -51,8 +53,7 @@ public class CaseExpression<R> implements Field<R> {
 			if (result != null) {
 				theCase = theCase.when(conditions.get(i).toExpression(model, builder), result);
 			} else if (resultFields.get(i) != null) {
-				theCase = theCase.when(conditions.get(i).toExpression(model, builder),
-						resultFields.get(i).toExpression(model, builder));
+				theCase = theCase.when(conditions.get(i).toExpression(model, builder), resultFields.get(i).toExpression(model, builder));
 			}
 		}
 		if (defaultResult != null) {

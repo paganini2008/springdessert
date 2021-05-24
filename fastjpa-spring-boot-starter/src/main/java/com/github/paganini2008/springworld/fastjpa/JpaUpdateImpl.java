@@ -63,8 +63,6 @@ public class JpaUpdateImpl<E> implements JpaUpdate<E> {
 
 	@Override
 	public int execute() {
-		return customUpdate.executeUpdate((CriteriaBuilder builder) -> {
-			return update;
-		});
+		return customUpdate.executeUpdate((CriteriaBuilder builder) -> update);
 	}
 }

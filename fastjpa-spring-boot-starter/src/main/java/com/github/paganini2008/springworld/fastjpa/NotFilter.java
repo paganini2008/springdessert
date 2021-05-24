@@ -18,6 +18,7 @@ public class NotFilter extends LogicalFilter {
 		this.filter = filter;
 	}
 
+	@Override
 	public Predicate toPredicate(Model<?> model, CriteriaBuilder builder) {
 		return filter.toPredicate(model, builder).not();
 	}

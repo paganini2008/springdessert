@@ -39,6 +39,7 @@ import com.github.paganini2008.devtools.db4j.mapper.TupleRowMapper;
 import com.github.paganini2008.devtools.jdbc.ConnectionFactory;
 import com.github.paganini2008.devtools.jdbc.PageableSql;
 import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
+import com.github.paganini2008.devtools.primitives.Ints;
 import com.github.paganini2008.springworld.jdbc.DaoListener;
 import com.github.paganini2008.springworld.jdbc.NoGeneratedKeyException;
 import com.github.paganini2008.springworld.jdbc.annotations.Arg;
@@ -47,8 +48,8 @@ import com.github.paganini2008.springworld.jdbc.annotations.Batch;
 import com.github.paganini2008.springworld.jdbc.annotations.Example;
 import com.github.paganini2008.springworld.jdbc.annotations.Get;
 import com.github.paganini2008.springworld.jdbc.annotations.Insert;
-import com.github.paganini2008.springworld.jdbc.annotations.Query;
 import com.github.paganini2008.springworld.jdbc.annotations.Select;
+import com.github.paganini2008.springworld.jdbc.annotations.Query;
 import com.github.paganini2008.springworld.jdbc.annotations.Sql;
 import com.github.paganini2008.springworld.jdbc.annotations.Update;
 
@@ -81,23 +82,23 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 			return doUpdate(method, args);
 		} else if (method.isAnnotationPresent(Get.class)) {
 			return doGet(method, args);
-		} else if (method.isAnnotationPresent(Select.class)) {
-			return doSelect(method, args);
 		} else if (method.isAnnotationPresent(Query.class)) {
 			return doQuery(method, args);
+		} else if (method.isAnnotationPresent(Select.class)) {
+			return doSelect(method, args);
 		} else if (method.isAnnotationPresent(Batch.class)) {
 			return doBatch(method, args);
 		}
 		throw new NotImplementedException("Unknown target method: " + interfaceClass.getName() + "." + method.getName());
 	}
 
-	private Object doSelect(Method method, Object[] args) throws SQLException {
+	private Object doQuery(Method method, Object[] args) throws SQLException {
 		long startTime = System.currentTimeMillis();
 		if (!List.class.isAssignableFrom(method.getReturnType())) {
 			throw new IllegalArgumentException("Return type is only for List");
 		}
 		Class<?> elementType = getMethodReturnTypeElementType(method);
-		Select select = method.getAnnotation(Select.class);
+		Query select = method.getAnnotation(Query.class);
 		String sql = select.value();
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
@@ -127,13 +128,13 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		}
 	}
 
-	private Object doQuery(Method method, Object[] args) throws SQLException {
+	private Object doSelect(Method method, Object[] args) throws SQLException {
 		long startTime = System.currentTimeMillis();
 		if (!ResultSetSlice.class.isAssignableFrom(method.getReturnType())) {
 			throw new IllegalArgumentException("Return type is only for ResultSetSlice");
 		}
 		Class<?> elementType = getMethodReturnTypeElementType(method);
-		final Query query = method.getAnnotation(Query.class);
+		final Select query = method.getAnnotation(Select.class);
 		StringBuilder sqlBuilder = new StringBuilder(query.value());
 		SqlParameter sqlParameter = getSqlParameter(method, args, sqlBuilder);
 		for (Class<?> listenerClass : query.listeners()) {
@@ -216,7 +217,7 @@ public class Db4jDaoProxyBean<T> extends SqlPlus implements InvocationHandler {
 		sql = sqlBuilder.toString();
 		try {
 			int[] effects = batchUpdate(sql, sqlParameters);
-			int effectedRows = effects != null ? effects.length : 0;
+			int effectedRows = effects.length > 0 ? Ints.sum(effects) : 0;
 			try {
 				return returnType.cast(effectedRows);
 			} catch (RuntimeException e) {

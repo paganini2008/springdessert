@@ -6,8 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.paganini2008.devtools.jdbc.DefaultPageableSql;
-import com.github.paganini2008.devtools.jdbc.PageableSql;
 import com.github.paganini2008.springworld.jdbc.DaoListener;
 
 /**
@@ -21,8 +19,6 @@ import com.github.paganini2008.springworld.jdbc.DaoListener;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Query {
-
-	Class<? extends PageableSql> pageableSql() default DefaultPageableSql.class;
 
 	String value();
 

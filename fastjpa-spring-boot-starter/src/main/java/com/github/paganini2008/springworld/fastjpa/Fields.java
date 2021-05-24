@@ -501,12 +501,4 @@ public abstract class Fields {
 
 	}
 
-	public static <T, R> IfExpression<T, R> selectCase(Field<T> field) {
-		return new IfExpression<T, R>(field);
-	}
-
-	public static <R> CaseExpression<R> selectCase() {
-		return new CaseExpression<R>();
-	}
-
 }

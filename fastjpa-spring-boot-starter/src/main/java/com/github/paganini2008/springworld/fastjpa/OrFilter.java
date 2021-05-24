@@ -21,6 +21,7 @@ public class OrFilter extends LogicalFilter {
 		this.otherFilter = otherFilter;
 	}
 
+	@Override
 	public Predicate toPredicate(Model<?> selector, CriteriaBuilder builder) {
 		Predicate left = filter.toPredicate(selector, builder);
 		Predicate right = otherFilter.toPredicate(selector, builder);
