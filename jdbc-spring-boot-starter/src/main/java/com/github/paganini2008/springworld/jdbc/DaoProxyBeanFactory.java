@@ -17,7 +17,7 @@ import com.github.paganini2008.devtools.beans.BeanUtils;
  * 
  * DaoProxyBeanFactory
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @since 1.0
  */
 public class DaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationContextAware {

@@ -14,7 +14,7 @@ import com.github.paganini2008.springworld.reditools.BeanNames;
  * 
  * RedisMessageEventPublisher
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

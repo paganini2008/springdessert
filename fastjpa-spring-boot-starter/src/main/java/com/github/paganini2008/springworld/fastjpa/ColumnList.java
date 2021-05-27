@@ -7,7 +7,7 @@ import java.util.Arrays;
  * 
  * ColumnList
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class ColumnList extends ArrayList<Column> {

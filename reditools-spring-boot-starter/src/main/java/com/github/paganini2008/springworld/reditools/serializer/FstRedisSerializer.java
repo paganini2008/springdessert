@@ -8,7 +8,7 @@ import org.springframework.data.redis.serializer.SerializationException;
  * 
  * FstRedisSerializer
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

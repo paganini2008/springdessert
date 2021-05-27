@@ -10,7 +10,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * 
  * RedisCalulation
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

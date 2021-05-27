@@ -11,7 +11,7 @@ import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
  * 
  * GenericResultSetSlice
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public abstract class GenericResultSetSlice<T> implements ResultSetSlice<T> {

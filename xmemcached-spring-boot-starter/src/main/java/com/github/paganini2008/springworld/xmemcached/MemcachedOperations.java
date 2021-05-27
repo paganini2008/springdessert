@@ -6,7 +6,7 @@ import net.rubyeye.xmemcached.MemcachedClient;
  * 
  * MemcachedOperations
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface MemcachedOperations {

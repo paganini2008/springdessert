@@ -15,7 +15,7 @@ import com.github.paganini2008.devtools.multithreads.ThreadUtils;
  * 
  * RedisCountDownLatch
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

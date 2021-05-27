@@ -4,7 +4,7 @@ package com.github.paganini2008.springworld.fastjpa;
  * 
  * JpaSubQueryGroupBy
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface JpaSubQueryGroupBy<E, T> {

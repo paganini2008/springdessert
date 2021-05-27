@@ -26,7 +26,7 @@ import com.github.paganini2008.springworld.reditools.BeanNames;
  * 
  * RedisKeepAliveResolver
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

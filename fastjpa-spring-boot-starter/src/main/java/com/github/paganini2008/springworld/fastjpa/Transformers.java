@@ -11,7 +11,7 @@ import javax.persistence.criteria.Selection;
  * 
  * Transformers
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public abstract class Transformers {
@@ -45,7 +45,7 @@ public abstract class Transformers {
 	 * 
 	 * NoopTransformer
 	 * 
-	 * @author Jimmy Hoff
+	 * @author Fred Feng
 	 *
 	 * @version 1.0
 	 */
@@ -70,7 +70,7 @@ public abstract class Transformers {
 	 * 
 	 * MapTransformer
 	 * 
-	 * @author Jimmy Hoff
+	 * @author Fred Feng
 	 *
 	 * @version 1.0
 	 */
@@ -96,7 +96,7 @@ public abstract class Transformers {
 	 * 
 	 * ListTransformer
 	 * 
-	 * @author Jimmy Hoff
+	 * @author Fred Feng
 	 *
 	 * @version 1.0
 	 */

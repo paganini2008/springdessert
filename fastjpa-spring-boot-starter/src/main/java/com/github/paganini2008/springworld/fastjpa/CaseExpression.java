@@ -11,7 +11,7 @@ import javax.persistence.criteria.Expression;
  * 
  * CaseExpression
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class CaseExpression<R> implements Field<R> {

@@ -9,7 +9,7 @@ import javax.persistence.criteria.Predicate;
  * 
  * Restrictions
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public abstract class Restrictions {

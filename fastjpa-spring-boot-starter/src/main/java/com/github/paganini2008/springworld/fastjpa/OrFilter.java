@@ -7,7 +7,7 @@ import javax.persistence.criteria.Predicate;
  * 
  * OrFilter
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class OrFilter extends LogicalFilter {

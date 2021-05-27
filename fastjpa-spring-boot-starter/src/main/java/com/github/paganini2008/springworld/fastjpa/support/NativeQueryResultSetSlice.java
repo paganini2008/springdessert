@@ -11,7 +11,7 @@ import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
  * 
  * NativeQueryResultSetSlice
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class NativeQueryResultSetSlice<E> implements ResultSetSlice<E> {

@@ -6,7 +6,7 @@ import com.github.paganini2008.devtools.reflection.ConstructorUtils;
  * 
  * RefInjectionHandler
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class RefInjectionHandler implements InjectionHandler {

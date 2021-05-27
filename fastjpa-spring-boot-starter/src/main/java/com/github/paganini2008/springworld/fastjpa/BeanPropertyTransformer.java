@@ -6,7 +6,7 @@ import com.github.paganini2008.springworld.fastjpa.support.BeanReflection;
  * 
  * BeanPropertyTransformer
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

@@ -4,7 +4,7 @@ package com.github.paganini2008.springworld.fastjpa;
  * 
  * JpaUpdate
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface JpaUpdate<E> extends Executable {

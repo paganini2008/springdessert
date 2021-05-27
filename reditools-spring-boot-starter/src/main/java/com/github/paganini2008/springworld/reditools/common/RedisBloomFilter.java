@@ -13,7 +13,7 @@ import com.google.common.hash.Hashing;
  * 
  * RedisBloomFilter
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @since 1.0
  */
 public class RedisBloomFilter {

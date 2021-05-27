@@ -9,7 +9,7 @@ import javax.persistence.criteria.Subquery;
  * 
  * JpaDeleteImpl
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

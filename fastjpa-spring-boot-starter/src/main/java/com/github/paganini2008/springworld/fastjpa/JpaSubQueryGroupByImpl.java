@@ -8,7 +8,7 @@ import javax.persistence.criteria.Subquery;
  * 
  * JpaSubQueryGroupByImpl
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

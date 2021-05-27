@@ -20,7 +20,7 @@ import com.github.paganini2008.springworld.jdbc.db4j.Db4jClassPathDaoScanner;
  * 
  * DaoScannerRegistrar
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @since 1.0
  */
 public class DaoScannerRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware {

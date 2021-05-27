@@ -6,7 +6,7 @@ import java.sql.SQLException;
  * 
  * NoGeneratedKeyException
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class NoGeneratedKeyException extends SQLException {

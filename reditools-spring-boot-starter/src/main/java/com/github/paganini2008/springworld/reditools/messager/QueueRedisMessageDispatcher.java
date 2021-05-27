@@ -13,7 +13,7 @@ import com.github.paganini2008.springworld.reditools.BeanNames;
  * 
  * QueueRedisMessageDispatcher
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

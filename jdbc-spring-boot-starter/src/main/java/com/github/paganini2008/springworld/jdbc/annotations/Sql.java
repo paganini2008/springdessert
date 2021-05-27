@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 
  * Sql
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

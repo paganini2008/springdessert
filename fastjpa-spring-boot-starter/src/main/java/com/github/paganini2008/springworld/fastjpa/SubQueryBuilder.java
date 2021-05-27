@@ -7,7 +7,7 @@ import javax.persistence.criteria.Subquery;
  * 
  * SubQueryBuilder
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface SubQueryBuilder<T> {

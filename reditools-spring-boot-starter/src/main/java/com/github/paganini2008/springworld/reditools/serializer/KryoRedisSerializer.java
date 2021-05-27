@@ -12,7 +12,7 @@ import com.esotericsoftware.kryo.util.Pool;
  * 
  * KryoRedisSerializer
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class KryoRedisSerializer<T> implements RedisSerializer<T> {

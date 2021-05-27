@@ -30,7 +30,7 @@ import com.github.paganini2008.springworld.fastjpa.ResultSetExtractor;
  * 
  * EntityDaoSupport
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

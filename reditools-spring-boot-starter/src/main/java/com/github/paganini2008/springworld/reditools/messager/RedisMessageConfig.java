@@ -28,7 +28,7 @@ import com.github.paganini2008.springworld.reditools.BeanNames;
  * 
  * RedisMessageConfig
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 @Configuration(proxyBeanMethods = false)

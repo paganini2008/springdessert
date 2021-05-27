@@ -6,7 +6,7 @@ import com.github.paganini2008.devtools.collection.Tuple;
  * 
  * BeanPropertyRowMapper
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class BeanPropertyRowMapper<T> implements RowMapper<T> {

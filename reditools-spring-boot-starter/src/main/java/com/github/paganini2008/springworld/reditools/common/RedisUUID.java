@@ -12,7 +12,7 @@ import org.springframework.data.redis.support.atomic.RedisAtomicLong;
  * 
  * RedisUUID
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @since 1.0
  */
 public class RedisUUID {

@@ -6,7 +6,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * 
  * JpaPageGroupBy
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

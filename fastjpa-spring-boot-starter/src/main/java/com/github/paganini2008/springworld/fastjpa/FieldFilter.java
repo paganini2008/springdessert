@@ -8,7 +8,7 @@ import javax.persistence.criteria.Predicate;
  * 
  * FieldFilter
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class FieldFilter<T> extends LogicalFilter {

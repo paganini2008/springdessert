@@ -8,7 +8,7 @@ import javax.persistence.criteria.Selection;
  * 
  * Transformer
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface Transformer<T, R> {

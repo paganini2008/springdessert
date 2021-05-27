@@ -13,7 +13,7 @@ import lombok.Setter;
  * 
  * RedisMessageEntity
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 @Getter

@@ -6,7 +6,7 @@ import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
  * 
  * JpaPageResultSet
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

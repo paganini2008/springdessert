@@ -7,7 +7,7 @@ import javax.persistence.criteria.Predicate;
  * 
  * AndFilter
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

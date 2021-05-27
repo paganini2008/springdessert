@@ -14,7 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * 
  * GenericRedisTemplate
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * 
  * @since 1.0
  */

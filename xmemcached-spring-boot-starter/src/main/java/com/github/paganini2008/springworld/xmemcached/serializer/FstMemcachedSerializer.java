@@ -6,7 +6,7 @@ import org.nustaq.serialization.FSTConfiguration;
  * 
  * FstMemcachedSerializer
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

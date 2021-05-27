@@ -21,7 +21,7 @@ import com.github.paganini2008.devtools.jdbc.ConnectionFactory;
  * 
  * Db4jDaoProxyBeanFactory
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @since 1.0
  */
 public class Db4jDaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationContextAware {
@@ -62,7 +62,7 @@ public class Db4jDaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationCo
 	 * 
 	 * TransactionSynchronizationConnectionFactory
 	 *
-	 * @author Jimmy Hoff
+	 * @author Fred Feng
 	 * @since 1.0
 	 */
 	private static class TransactionSynchronizationConnectionFactory implements ConnectionFactory {

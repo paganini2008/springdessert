@@ -10,7 +10,7 @@ import com.github.paganini2008.devtools.io.SerializationException;
  * 
  * KryoMemcachedSerializer
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class KryoMemcachedSerializer implements MemcachedSerializer {

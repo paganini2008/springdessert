@@ -14,7 +14,7 @@ import com.github.paganini2008.springworld.jdbc.DaoListener;
  * 
  * Select
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 @Documented

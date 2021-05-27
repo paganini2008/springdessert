@@ -21,7 +21,7 @@ import com.github.paganini2008.springworld.fastjpa.JpaUpdate;
  * 
  * EntityDao
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 @NoRepositoryBean

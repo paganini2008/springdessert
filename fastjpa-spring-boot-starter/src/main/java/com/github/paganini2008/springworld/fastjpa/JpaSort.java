@@ -7,7 +7,7 @@ import javax.persistence.criteria.Order;
  * 
  * JpaSort
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

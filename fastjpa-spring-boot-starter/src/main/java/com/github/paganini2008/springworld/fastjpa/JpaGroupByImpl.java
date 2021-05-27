@@ -12,7 +12,7 @@ import javax.persistence.criteria.Selection;
  * 
  * JpaGroupByImpl
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @since 1.0
  */

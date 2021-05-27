@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
  * 
  * EnhancedJdbcDaoSupport
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public class EnhancedJdbcDaoSupport extends NamedParameterJdbcDaoSupport {

@@ -11,7 +11,7 @@ import javax.persistence.criteria.Expression;
  * 
  * Fields
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public abstract class Fields {

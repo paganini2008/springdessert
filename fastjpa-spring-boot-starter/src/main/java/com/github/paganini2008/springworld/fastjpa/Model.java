@@ -12,7 +12,7 @@ import javax.persistence.metamodel.EntityType;
  * 
  * Model
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 public interface Model<X> {

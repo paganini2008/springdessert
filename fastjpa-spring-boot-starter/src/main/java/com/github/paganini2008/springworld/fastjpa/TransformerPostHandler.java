@@ -4,7 +4,7 @@ package com.github.paganini2008.springworld.fastjpa;
  * 
  * TransformerPostHandler
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  * @version 1.0
  */
 @FunctionalInterface

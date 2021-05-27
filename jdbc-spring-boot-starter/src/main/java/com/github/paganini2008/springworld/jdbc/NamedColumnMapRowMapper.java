@@ -7,7 +7,7 @@ import org.springframework.jdbc.support.JdbcUtils;
  * 
  * NamedColumnMapRowMapper
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */

@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
  * 
  * JpaDaoSupport
  * 
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
  * @version 1.0
  */
