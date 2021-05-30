@@ -12,7 +12,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
-import com.github.paganini2008.devtools.ClassUtils;
+import com.github.paganini2008.devtools.SystemPropertyUtils;
 import com.github.paganini2008.springworld.jdbc.annotations.DaoScan;
 import com.github.paganini2008.springworld.jdbc.db4j.Db4jClassPathDaoScanner;
 
@@ -28,7 +28,7 @@ public class DaoScannerRegistrar implements ImportBeanDefinitionRegistrar, Resou
 	private static final boolean db4jPresent;
 
 	static {
-		db4jPresent = ClassUtils.isPresent("com.github.paganini2008.devtools.db4j.SqlRunner");
+		db4jPresent = SystemPropertyUtils.getBoolean("db4j.enabled", false);
 	}
 
 	private ResourceLoader resourceLoader;
