@@ -18,4 +18,6 @@ public interface JpaUpdate<E> extends Executable {
 	<T> JpaUpdate<E> set(String attributeName, Field<T> value);
 
 	<X> JpaSubQuery<X, X> subQuery(Class<X> entityClass);
+
+	<X, Y> JpaSubQuery<X, Y> subQuery(Class<X> entityClass, Class<Y> resultClass);
 }

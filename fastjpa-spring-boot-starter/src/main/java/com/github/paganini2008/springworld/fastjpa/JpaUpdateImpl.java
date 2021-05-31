@@ -62,6 +62,13 @@ public class JpaUpdateImpl<E> implements JpaUpdate<E> {
 	}
 
 	@Override
+	public <X, Y> JpaSubQuery<X, Y> subQuery(Class<X> entityClass, Class<Y> resultClass) {
+		Subquery<Y> subquery = update.subquery(resultClass);
+		Root<X> root = subquery.from(entityClass);
+		return new JpaSubQueryImpl<X, Y>(Model.forRoot(root), subquery, builder);
+	}
+
+	@Override
 	public int execute() {
 		return customUpdate.executeUpdate((CriteriaBuilder builder) -> update);
 	}
