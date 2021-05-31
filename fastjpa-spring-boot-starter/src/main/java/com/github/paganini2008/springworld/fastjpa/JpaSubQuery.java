@@ -29,6 +29,8 @@ public interface JpaSubQuery<X, Y> extends SubQueryBuilder<Y> {
 
 	JpaSubQuery<X, Y> select(Field<Y> field);
 
+	JpaSubQuery<X, Y> distinct(boolean distinct);
+
 	default <Z> JpaSubQuery<Z, Y> join(String attributeName, String alias) {
 		return join(attributeName, alias, null);
 	}

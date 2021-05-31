@@ -55,6 +55,12 @@ public class JpaSubQueryImpl<X, Y> implements JpaSubQuery<X, Y> {
 	}
 
 	@Override
+	public JpaSubQuery<X, Y> distinct(boolean distinct) {
+		query.distinct(distinct);
+		return this;
+	}
+
+	@Override
 	public <Z> JpaSubQuery<Z, Y> join(String attributeName, String alias, Filter on) {
 		Model<Z> join = model.join(attributeName, alias, on != null ? on.toPredicate(model, builder) : null);
 		return new JpaSubQueryImpl<Z, Y>(join, query, builder);
