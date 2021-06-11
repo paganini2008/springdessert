@@ -205,6 +205,18 @@ public abstract class Fields {
 		};
 	}
 
+	public static Field<Long> count(SubQueryBuilder<?> subQueryBuilder) {
+		return new Field<Long>() {
+			public Expression<Long> toExpression(Model<?> model, CriteriaBuilder builder) {
+				return builder.count(subQueryBuilder.toSubquery(builder));
+			}
+
+			public String toString() {
+				return "count(subquery)";
+			}
+		};
+	}
+
 	public static Field<Long> countDistinct(String attributeName) {
 		return countDistinct(Property.forName(attributeName));
 	}
@@ -218,6 +230,18 @@ public abstract class Fields {
 
 			public String toString() {
 				return "count(distinct " + field.toString() + ")";
+			}
+		};
+	}
+
+	public static Field<Long> countDistinct(SubQueryBuilder<?> subQueryBuilder) {
+		return new Field<Long>() {
+			public Expression<Long> toExpression(Model<?> model, CriteriaBuilder builder) {
+				return builder.countDistinct(subQueryBuilder.toSubquery(builder));
+			}
+
+			public String toString() {
+				return "count(distinct subquery)";
 			}
 		};
 	}

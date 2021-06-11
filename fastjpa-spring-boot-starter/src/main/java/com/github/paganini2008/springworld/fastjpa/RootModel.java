@@ -13,6 +13,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+import com.github.paganini2008.devtools.ArrayUtils;
 import com.github.paganini2008.devtools.StringUtils;
 
 /**
@@ -105,12 +106,29 @@ public class RootModel<X> implements Model<X> {
 	}
 
 	@Override
-	public List<Selection<?>> getSelections(String name) {
-		if (!this.alias.equals(name)) {
-			throw new AliasMismatchedException(name);
+	public String getAlias() {
+		return alias;
+	}
+
+	@Override
+	public Selection<?> getSelection(String alias) {
+		if (!this.alias.equals(alias)) {
+			throw new AliasMismatchedException(alias);
 		}
-		List<Selection<?>> selections = new ArrayList<Selection<?>>();
-		selections.add(root.alias(alias));
+		return root.alias(alias);
+	}
+
+	@Override
+	public List<Selection<?>> getSelections(String alias, String[] attributeNames) {
+		if (!this.alias.equals(alias)) {
+			throw new AliasMismatchedException(alias);
+		}
+		List<Selection<?>> selections = new ArrayList<>();
+		if (ArrayUtils.isNotEmpty(attributeNames)) {
+			for (String name : attributeNames) {
+				selections.add(root.get(name));
+			}
+		}
 		return selections;
 	}
 

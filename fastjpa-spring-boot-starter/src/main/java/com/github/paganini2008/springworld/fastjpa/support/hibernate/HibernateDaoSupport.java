@@ -21,7 +21,7 @@ public class HibernateDaoSupport<E, ID> extends EntityDaoSupport<E, ID> implemen
 	}
 
 	public <T> ResultSetSlice<T> select(String sql, Object[] arguments, RowMapper<T> mapper) {
-		return new HibernateRowMapperResultSetSlice<T>(sql, arguments, em, mapper);
+		return new HibernateNativeQueryResultSetSlice<T>(sql, arguments, em, mapper);
 	}
 
 }

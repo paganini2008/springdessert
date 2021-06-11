@@ -13,6 +13,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+import com.github.paganini2008.devtools.ArrayUtils;
 import com.github.paganini2008.devtools.StringUtils;
 
 /**
@@ -25,13 +26,13 @@ import com.github.paganini2008.devtools.StringUtils;
 public class JoinModel<X, Y> implements Model<Y> {
 
 	private final Join<X, Y> join;
-	private final String name;
+	private final String alias;
 	private final Metamodel metamodel;
 	private final Model<X> model;
 
 	JoinModel(Join<X, Y> join, String name, Metamodel metamodel, Model<X> model) {
 		this.join = join;
-		this.name = name;
+		this.alias = name;
 		this.metamodel = metamodel;
 		this.model = model;
 	}
@@ -62,7 +63,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 
 	@Override
 	public boolean hasAttribute(String name, String attributeName) {
-		return this.name.equals(name) && StringUtils.isNotBlank(attributeName) ? true : model.hasAttribute(name, attributeName);
+		return this.alias.equals(name) && StringUtils.isNotBlank(attributeName) ? true : model.hasAttribute(name, attributeName);
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class JoinModel<X, Y> implements Model<Y> {
 
 	@Override
 	public <T> Path<T> getAttribute(String name, String attributeName) {
-		if (this.name.equals(name) && StringUtils.isNotBlank(attributeName)) {
+		if (this.alias.equals(name) && StringUtils.isNotBlank(attributeName)) {
 			return join.get(attributeName);
 		}
 		return model.getAttribute(name, attributeName);
@@ -84,25 +85,41 @@ public class JoinModel<X, Y> implements Model<Y> {
 	}
 
 	@Override
-	public List<Selection<?>> getSelections(String name) {
-		if (this.name.equals(name)) {
-			List<Selection<?>> selections = new ArrayList<>();
-			selections.add(join.alias(name));
-			return selections;
-		}
-		return model.getSelections(name);
+	public String getAlias() {
+		return alias;
 	}
 
 	@Override
-	public List<JpaAttributeDetail> getAttributeDetails(String name) {
-		if (this.name.equals(name)) {
+	public Selection<?> getSelection(String alias) {
+		if (this.alias.equals(alias)) {
+			return join.alias(alias);
+		}
+		return model.getSelection(alias);
+	}
+
+	@Override
+	public List<Selection<?>> getSelections(String alias, String[] attributeNames) {
+		if (this.alias.equals(alias)) {
+			List<Selection<?>> selections = new ArrayList<>();
+			if (ArrayUtils.isNotEmpty(attributeNames)) {
+				for (String name : attributeNames) {
+					selections.add(join.get(name));
+				}
+			}
+		}
+		return model.getSelections(alias, attributeNames);
+	}
+
+	@Override
+	public List<JpaAttributeDetail> getAttributeDetails(String alias) {
+		if (this.alias.equals(alias)) {
 			List<JpaAttributeDetail> details = new ArrayList<JpaAttributeDetail>();
 			for (SingularAttribute<? super Y, ?> attribute : getEntityType().getSingularAttributes()) {
 				details.add(new JpaAttributeDetailImpl<>(attribute));
 			}
 			return details;
 		}
-		return model.getAttributeDetails(name);
+		return model.getAttributeDetails(alias);
 	}
 
 	@Override

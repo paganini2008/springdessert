@@ -47,8 +47,8 @@ public class JpaPageImpl<E, T> implements JpaPage<E, T> {
 	}
 
 	@Override
-	public JpaPageResultSet<T> selectAlias(String... tableAlias) {
-		query.selectAlias(tableAlias);
+	public JpaPageResultSet<T> selectAlias(String... tableAliases) {
+		query.selectAlias(tableAliases);
 		return new JpaPageResultSetImpl<T>(query.model(), query.query(), counter.query(), customQuery);
 	}
 

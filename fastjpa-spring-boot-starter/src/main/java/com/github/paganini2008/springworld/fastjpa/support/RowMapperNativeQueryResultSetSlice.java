@@ -11,14 +11,14 @@ import com.github.paganini2008.devtools.collection.Tuple;
 
 /**
  * 
- * RowMapperResultSetSlice
+ * RowMapperNativeQueryResultSetSlice
  *
  * @author Fred Feng
  * @version 1.0
  */
-public abstract class RowMapperResultSetSlice<T> extends GenericResultSetSlice<T> {
+public abstract class RowMapperNativeQueryResultSetSlice<T> extends NativeQueryResultSetSlice<T> {
 
-	protected RowMapperResultSetSlice(String sql, Object[] arguments, EntityManager em, RowMapper<T> mapper) {
+	protected RowMapperNativeQueryResultSetSlice(String sql, Object[] arguments, EntityManager em, RowMapper<T> mapper) {
 		super(sql, arguments, em);
 		this.mapper = mapper;
 	}

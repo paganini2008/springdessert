@@ -19,10 +19,6 @@ public interface Model<X> {
 
 	static final String ROOT = "this";
 
-	default String getDefaultAlias() {
-		return ROOT;
-	}
-
 	EntityType<X> getEntityType();
 
 	Class<?> getRootType();
@@ -33,25 +29,23 @@ public interface Model<X> {
 
 	Root<?> getRoot();
 
+	String getAlias();
+
 	<T> Path<T> getAttribute(String attributeName);
 
 	<T> Path<T> getAttribute(String name, String attributeName);
 
 	boolean hasAttribute(String name, String attributeName);
 
-	@SuppressWarnings("unchecked")
-	default <T> Selection<T> getSelection() {
-		List<Selection<?>> selections = getSelections(ROOT);
-		return (Selection<T>) selections.get(0);
-	}
+	Selection<?> getSelection(String alias);
 
-	List<Selection<?>> getSelections(String name);
+	List<Selection<?>> getSelections(String alias, String[] attributeNames);
 
 	default List<JpaAttributeDetail> getAttributeDetails() {
 		return getAttributeDetails(ROOT);
 	}
 
-	List<JpaAttributeDetail> getAttributeDetails(String name);
+	List<JpaAttributeDetail> getAttributeDetails(String alias);
 
 	<Y> Model<Y> join(String attributeName, String alias, Predicate on);
 

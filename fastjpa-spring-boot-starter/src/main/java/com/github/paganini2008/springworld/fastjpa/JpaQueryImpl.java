@@ -78,11 +78,11 @@ public class JpaQueryImpl<E, T> implements JpaQuery<E, T> {
 	}
 
 	@Override
-	public JpaQueryResultSet<T> selectAlias(String... tableAlias) {
-		if (ArrayUtils.isNotEmpty(tableAlias)) {
+	public JpaQueryResultSet<T> selectAlias(String... tableAliases) {
+		if (ArrayUtils.isNotEmpty(tableAliases)) {
 			List<Selection<?>> selections = new ArrayList<Selection<?>>();
-			for (String alias : tableAlias) {
-				selections.addAll(model.getSelections(alias));
+			for (String tableAlias : tableAliases) {
+				selections.add(model.getSelection(tableAlias));
 			}
 			query.multiselect(selections);
 		}

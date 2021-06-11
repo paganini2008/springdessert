@@ -26,7 +26,7 @@ public final class Property<T> implements Field<T> {
 
 	public Expression<T> toExpression(Model<?> model, CriteriaBuilder builder) {
 		Expression<T> expression = StringUtils.isNotBlank(alias) ? model.getAttribute(alias, attributeName)
-				: model.getAttribute(model.getDefaultAlias(), attributeName);
+				: model.getAttribute(Model.ROOT, attributeName);
 		if (requiredType != null) {
 			return expression.as(requiredType);
 		}

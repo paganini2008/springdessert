@@ -16,7 +16,7 @@ public interface JpaPage<E, T> {
 
 	JpaPageResultSet<T> selectThis();
 
-	JpaPageResultSet<T> selectAlias(String... tableAlias);
+	JpaPageResultSet<T> selectAlias(String... tableAliases);
 
 	default JpaPageResultSet<T> select(String... attributeNames) {
 		return select(new ColumnList().addColumns(attributeNames));

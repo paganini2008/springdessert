@@ -32,7 +32,7 @@ public interface JpaQuery<E, T> {
 
 	JpaQueryResultSet<T> selectThis();
 
-	JpaQueryResultSet<T> selectAlias(String... tableAlias);
+	JpaQueryResultSet<T> selectAlias(String... tableAliases);
 
 	default JpaQueryResultSet<T> select(String... attributeNames) {
 		return select(new ColumnList().addColumns(attributeNames));

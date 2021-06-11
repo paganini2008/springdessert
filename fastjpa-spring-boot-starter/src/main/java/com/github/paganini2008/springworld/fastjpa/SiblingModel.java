@@ -71,8 +71,24 @@ public class SiblingModel<X, Y> implements Model<Y> {
 	}
 
 	@Override
-	public List<Selection<?>> getSelections(String name) {
-		return sibling.getSelections(name);
+	public String getAlias() {
+		return sibling.getAlias();
+	}
+
+	@Override
+	public Selection<?> getSelection(String alias) {
+		if (sibling.getAlias().equals(alias)) {
+			return sibling.getSelection(alias);
+		}
+		return model.getSelection(alias);
+	}
+
+	@Override
+	public List<Selection<?>> getSelections(String alias, String[] attributeNames) {
+		if (sibling.getAlias().equals(alias)) {
+			return sibling.getSelections(alias, attributeNames);
+		}
+		return model.getSelections(alias, attributeNames);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.github.paganini2008.springworld.fastjpa;
 
+import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Selection;
 
@@ -28,6 +30,27 @@ public interface Column {
 
 	static Column forName(String alias, String attributeName, Class<?> requiredType) {
 		return Property.forName(alias, attributeName, requiredType).as(attributeName);
+	}
+
+	static Column forSubQuery(SubQueryBuilder<?> subQueryBuilder) {
+		return new Column() {
+
+			@Override
+			public Selection<?> toSelection(Model<?> model, CriteriaBuilder builder) {
+				return subQueryBuilder.toSubquery(builder).getSelection();
+			}
+		};
+	}
+
+	static Column construct(Class<?> resultClass, String alias, String[] attributeNames) {
+		return new Column() {
+
+			@Override
+			public Selection<?> toSelection(Model<?> model, CriteriaBuilder builder) {
+				List<Selection<?>> selections = model.getSelections(alias, attributeNames);
+				return builder.construct(resultClass, selections.toArray(new Selection[0]));
+			}
+		};
 	}
 
 }

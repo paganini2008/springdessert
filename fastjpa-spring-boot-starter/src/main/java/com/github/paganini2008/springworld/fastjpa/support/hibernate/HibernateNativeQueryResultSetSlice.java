@@ -10,18 +10,18 @@ import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 
 import com.github.paganini2008.springworld.fastjpa.support.RowMapper;
-import com.github.paganini2008.springworld.fastjpa.support.RowMapperResultSetSlice;
+import com.github.paganini2008.springworld.fastjpa.support.RowMapperNativeQueryResultSetSlice;
 
 /**
  * 
- * HibernateRowMapperResultSetSlice
+ * HibernateNativeQueryResultSetSlice
  *
  * @author Fred Feng
  * @version 1.0
  */
-public class HibernateRowMapperResultSetSlice<T> extends RowMapperResultSetSlice<T> {
+public class HibernateNativeQueryResultSetSlice<T> extends RowMapperNativeQueryResultSetSlice<T> {
 
-	public HibernateRowMapperResultSetSlice(String sql, Object[] arguments, EntityManager em, RowMapper<T> mapper) {
+	public HibernateNativeQueryResultSetSlice(String sql, Object[] arguments, EntityManager em, RowMapper<T> mapper) {
 		super(sql, arguments, em, mapper);
 	}
 

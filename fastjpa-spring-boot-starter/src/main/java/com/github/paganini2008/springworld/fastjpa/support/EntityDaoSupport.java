@@ -44,7 +44,7 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 	protected final Class<E> entityClass;
 
 	public ResultSetSlice<E> select(String sql, Object[] arguments) {
-		return new NativeQueryResultSetSlice<E>(sql, arguments, em, entityClass);
+		return new SimpleNativeQueryResultSetSlice<E>(sql, arguments, em, entityClass);
 	}
 
 	public <T> T getSingleResult(String sql, Object[] arguments, Class<T> requiredType) {
