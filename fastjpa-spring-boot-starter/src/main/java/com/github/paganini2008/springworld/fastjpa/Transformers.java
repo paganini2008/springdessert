@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.persistence.criteria.Selection;
 
+import com.github.paganini2008.devtools.collection.CaseInsensitiveMap;
+
 /**
  * 
  * Transformers
@@ -21,7 +23,11 @@ public abstract class Transformers {
 	}
 
 	public static <T> Transformer<T, Map<String, Object>> asMap() {
-		return new MapTransformer<T>();
+		return new MapTransformer<T>(false);
+	}
+
+	public static <T> Transformer<T, Map<String, Object>> asCaseInsensitiveMap() {
+		return new MapTransformer<T>(true);
 	}
 
 	public static <T> Transformer<T, List<Object>> asList() {
@@ -76,12 +82,15 @@ public abstract class Transformers {
 	 */
 	public static class MapTransformer<T> extends AbstractTransformer<T, Map<String, Object>> {
 
-		MapTransformer() {
+		MapTransformer(boolean caseInsensitive) {
+			this.caseInsensitive = caseInsensitive;
 		}
+
+		private final boolean caseInsensitive;
 
 		@Override
 		protected Map<String, Object> createObject(Model<?> model, int selectionSize, T original) {
-			return new LinkedHashMap<String, Object>(selectionSize);
+			return caseInsensitive ? new CaseInsensitiveMap<>(new LinkedHashMap<>(selectionSize)) : new LinkedHashMap<>(selectionSize);
 		}
 
 		@Override

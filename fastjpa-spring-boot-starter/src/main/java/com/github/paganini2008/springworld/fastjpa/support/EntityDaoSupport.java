@@ -24,7 +24,6 @@ import com.github.paganini2008.springworld.fastjpa.JpaQuery;
 import com.github.paganini2008.springworld.fastjpa.JpaUpdate;
 import com.github.paganini2008.springworld.fastjpa.Model;
 import com.github.paganini2008.springworld.fastjpa.Property;
-import com.github.paganini2008.springworld.fastjpa.ResultSetExtractor;
 
 /**
  * 
@@ -43,10 +42,12 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 
 	protected final Class<E> entityClass;
 
+	@Override
 	public ResultSetSlice<E> select(String sql, Object[] arguments) {
-		return new SimpleNativeQueryResultSetSlice<E>(sql, arguments, em, entityClass);
+		return new NativeQueryResultSetSlice<E>(sql, arguments, entityClass, em);
 	}
 
+	@Override
 	public <T> T getSingleResult(String sql, Object[] arguments, Class<T> requiredType) {
 		return execute(sql, arguments, query -> {
 			Object result = query.getSingleResult();
@@ -58,12 +59,14 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 		});
 	}
 
+	@Override
 	public int executeUpdate(String sql, Object[] arguments) {
 		return execute(sql, arguments, query -> {
 			return query.executeUpdate();
 		});
 	}
 
+	@Override
 	public <T> T execute(String sql, Object[] arguments, ResultSetExtractor<T> extractor) {
 		Query query = em.createNativeQuery(sql);
 		if (arguments != null && arguments.length > 0) {
@@ -75,55 +78,65 @@ public abstract class EntityDaoSupport<E, ID> extends JpaDaoSupport<E, ID> imple
 		return extractor.extractData(query);
 	}
 
-	public boolean exists(final Filter filter) {
+	@Override
+	public boolean exists(Filter filter) {
 		return count(filter) > 0;
 	}
 
+	@Override
 	public long count(final Filter filter) {
 		return count((root, query, builder) -> {
 			return filter.toPredicate(Model.forRoot(root), builder);
 		});
 	}
 
+	@Override
 	public List<E> findAll(Filter filter) {
 		return findAll((root, query, builder) -> {
 			return filter.toPredicate(Model.forRoot(root), builder);
 		});
 	}
 
+	@Override
 	public List<E> findAll(Filter filter, Sort sort) {
 		return findAll((root, query, builder) -> {
 			return filter.toPredicate(Model.forRoot(root), builder);
 		}, sort);
 	}
 
+	@Override
 	public Page<E> findAll(Filter filter, Pageable pageable) {
 		return findAll((root, query, builder) -> {
 			return filter.toPredicate(Model.forRoot(root), builder);
 		}, pageable);
 	}
 
+	@Override
 	public Optional<E> findOne(Filter filter) {
 		return findOne((root, query, builder) -> {
 			return filter.toPredicate(Model.forRoot(root), builder);
 		});
 	}
 
+	@Override
 	public <T extends Number> T sum(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
 		return query(requiredType).filter(filter).one(Fields.sum(property));
 	}
 
+	@Override
 	public <T extends Number> T avg(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
 		return query(requiredType).filter(filter).one(Fields.avg(property));
 	}
 
+	@Override
 	public <T extends Comparable<T>> T min(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
 		return query(requiredType).filter(filter).one(Fields.min(property));
 	}
 
+	@Override
 	public <T extends Comparable<T>> T max(String attributeName, Filter filter, Class<T> requiredType) {
 		Property<T> property = Property.forName(attributeName, requiredType);
 		return query(requiredType).filter(filter).one(Fields.max(property));

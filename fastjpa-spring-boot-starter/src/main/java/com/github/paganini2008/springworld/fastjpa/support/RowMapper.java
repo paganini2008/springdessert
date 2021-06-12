@@ -1,6 +1,6 @@
 package com.github.paganini2008.springworld.fastjpa.support;
 
-import com.github.paganini2008.devtools.collection.Tuple;
+import java.util.Map;
 
 /**
  * 
@@ -9,8 +9,9 @@ import com.github.paganini2008.devtools.collection.Tuple;
  * @author Fred Feng
  * @version 1.0
  */
+@FunctionalInterface
 public interface RowMapper<T> {
 
-	T mapRow(Tuple tuple);
+	T mapRow(int index, Map<String, Object> map);
 
 }

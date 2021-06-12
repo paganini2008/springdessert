@@ -1,16 +1,15 @@
 package com.github.paganini2008.springworld.fastjpa.support.hibernate;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
-import org.hibernate.query.internal.NativeQueryImpl;
-import org.hibernate.transform.Transformers;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 
-import com.github.paganini2008.springworld.fastjpa.support.RowMapper;
-import com.github.paganini2008.springworld.fastjpa.support.RowMapperNativeQueryResultSetSlice;
+import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
 
 /**
  * 
@@ -19,16 +18,60 @@ import com.github.paganini2008.springworld.fastjpa.support.RowMapperNativeQueryR
  * @author Fred Feng
  * @version 1.0
  */
-public class HibernateNativeQueryResultSetSlice<T> extends RowMapperNativeQueryResultSetSlice<T> {
+public class HibernateNativeQueryResultSetSlice<T> implements ResultSetSlice<T> {
 
-	public HibernateNativeQueryResultSetSlice(String sql, Object[] arguments, EntityManager em, RowMapper<T> mapper) {
-		super(sql, arguments, em, mapper);
+	HibernateNativeQueryResultSetSlice(String sql, Object[] arguments, EntityManager em,
+			QueryResultSetExtractor<T> queryResultSetExtractor) {
+		this.sql = sql;
+		this.arguments = arguments;
+		this.queryResultSetExtractor = queryResultSetExtractor;
+		this.em = em;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected List<Map<String, Object>> queryForMap(Query query) {
-		query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		return query.getResultList();
+	protected final String sql;
+	protected final Object[] arguments;
+	protected final EntityManager em;
+	private final QueryResultSetExtractor<T> queryResultSetExtractor;
+
+	@Override
+	public List<T> list(int maxResults, int firstResult) {
+		Session session = em.unwrap(Session.class);
+		NativeQuery<?> query = session.createNativeQuery(sql);
+		if (arguments != null && arguments.length > 0) {
+			int index = 1;
+			for (Object arg : arguments) {
+				query.setParameter(index++, arg);
+			}
+		}
+		if (firstResult >= 0) {
+			query.setFirstResult(firstResult);
+		}
+		if (maxResults > 0) {
+			query.setMaxResults(maxResults);
+		}
+		return queryResultSetExtractor.extractData(session, query);
+	}
+
+	@Override
+	public int rowCount() {
+		Session session = em.unwrap(Session.class);
+		NativeQuery<?> query = session.createNativeQuery(getCountQuerySqlString(sql));
+		if (arguments != null && arguments.length > 0) {
+			int index = 1;
+			for (Object arg : arguments) {
+				query.setParameter(index++, arg);
+			}
+		}
+		Optional<?> op = query.uniqueResultOptional();
+		if (op.isPresent()) {
+			Object result = op.get();
+			return result instanceof Number ? ((Number) result).intValue() : 0;
+		}
+		return 0;
+	}
+
+	protected String getCountQuerySqlString(String sql) {
+		return String.format(QueryUtils.COUNT_QUERY_STRING, "1", "(" + sql + ")");
 	}
 
 }

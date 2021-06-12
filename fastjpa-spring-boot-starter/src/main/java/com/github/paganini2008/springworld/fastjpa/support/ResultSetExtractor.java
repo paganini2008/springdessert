@@ -1,4 +1,4 @@
-package com.github.paganini2008.springworld.fastjpa;
+package com.github.paganini2008.springworld.fastjpa.support;
 
 import javax.persistence.Query;
 

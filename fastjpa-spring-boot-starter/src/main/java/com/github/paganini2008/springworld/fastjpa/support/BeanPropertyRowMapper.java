@@ -1,6 +1,6 @@
 package com.github.paganini2008.springworld.fastjpa.support;
 
-import com.github.paganini2008.devtools.collection.Tuple;
+import java.util.Map;
 
 /**
  * 
@@ -17,10 +17,10 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		this.beanReflection = new BeanReflection<T>(resultClass, includedProperties);
 	}
 
-	public T mapRow(Tuple tuple) {
+	public T mapRow(int index, Map<String, Object> data) {
 		T instance = beanReflection.instantiateBean();
-		for (String propertyName : tuple.keys()) {
-			beanReflection.setProperty(instance, propertyName, tuple.get(propertyName));
+		for (String propertyName : data.keySet()) {
+			beanReflection.setProperty(instance, propertyName, data.get(propertyName));
 		}
 		return instance;
 	}

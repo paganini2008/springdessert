@@ -1,8 +1,9 @@
 package com.github.paganini2008.springworld.fastjpa.support;
 
-import com.github.paganini2008.devtools.collection.Tuple;
+import java.util.Map;
+
+import com.github.paganini2008.devtools.collection.CaseInsensitiveMap;
 import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
-import com.github.paganini2008.springworld.fastjpa.ResultSetExtractor;
 
 /**
  * 
@@ -17,15 +18,13 @@ public interface NativeSqlOperations<E> {
 
 	<T> T getSingleResult(String sql, Object[] arguments, Class<T> requiredType);
 
-	default ResultSetSlice<Tuple> selectForTuple(String sql, Object[] arguments) {
-		return select(sql, arguments, tuple -> tuple);
-	}
+	<T> ResultSetSlice<T> select(String sql, Object[] arguments, Class<T> resultClass);
 
-	default <T> ResultSetSlice<T> select(String sql, Object[] arguments, Class<T> resultClass) {
-		return select(sql, arguments, new BeanPropertyRowMapper<T>(resultClass));
-	}
+	<T> ResultSetSlice<T> select(String sql, Object[] arguments, RowMapper<T> rowMapper);
 
-	<T> ResultSetSlice<T> select(String sql, Object[] arguments, RowMapper<T> mapper);
+	default ResultSetSlice<Map<String, Object>> selectForMap(String sql, Object[] arguments) {
+		return select(sql, arguments, (index, data) -> new CaseInsensitiveMap<>(data));
+	}
 
 	<T> T execute(String sql, Object[] arguments, ResultSetExtractor<T> extractor);
 

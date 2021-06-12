@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.springframework.data.jpa.repository.query.QueryUtils;
+
+import com.github.paganini2008.devtools.jdbc.ResultSetSlice;
+
 /**
  * 
  * NativeQueryResultSetSlice
@@ -12,14 +16,23 @@ import javax.persistence.Query;
  * @author Fred Feng
  * @version 1.0
  */
-public abstract class NativeQueryResultSetSlice<T> extends AbstractNativeQueryResultSetSlice<T> {
+@SuppressWarnings("all")
+public class NativeQueryResultSetSlice<E> implements ResultSetSlice<E> {
 
-	protected NativeQueryResultSetSlice(String sql, Object[] arguments, EntityManager em) {
-		super(sql, arguments, em);
+	NativeQueryResultSetSlice(String sql, Object[] arguments, Class<E> entityClass, EntityManager em) {
+		this.sql = sql;
+		this.arguments = arguments;
+		this.em = em;
+		this.entityClass = entityClass;
 	}
 
-	public List<T> list(int maxResults, int firstResult) {
-		Query query = em.createNativeQuery(sql);
+	protected final String sql;
+	protected final Object[] arguments;
+	protected final EntityManager em;
+	protected final Class<E> entityClass;
+
+	public List<E> list(int maxResults, int firstResult) {
+		Query query = em.createNativeQuery(sql, entityClass);
 		if (arguments != null && arguments.length > 0) {
 			int index = 1;
 			for (Object arg : arguments) {
@@ -32,9 +45,23 @@ public abstract class NativeQueryResultSetSlice<T> extends AbstractNativeQueryRe
 		if (maxResults > 0) {
 			query.setMaxResults(maxResults);
 		}
-		return getResultList(query);
+		return query.getResultList();
 	}
 
-	protected abstract List<T> getResultList(Query query);
+	public int rowCount() {
+		Query query = em.createNativeQuery(getCountQuerySqlString(sql));
+		if (arguments != null && arguments.length > 0) {
+			int index = 1;
+			for (Object arg : arguments) {
+				query.setParameter(index++, arg);
+			}
+		}
+		Object result = query.getSingleResult();
+		return result instanceof Number ? ((Number) result).intValue() : 0;
+	}
+
+	protected String getCountQuerySqlString(String sql) {
+		return String.format(QueryUtils.COUNT_QUERY_STRING, "1", "(" + sql + ")");
+	}
 
 }
