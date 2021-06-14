@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.github.paganini2008.springworld</groupId>
+	<groupId>com.github.paganini2008</groupId>
     <artifactId>springdessert</artifactId>
 	<version>2.0.1</version>
 	
     <modules>
 		<module>reditools-spring-boot-starter</module>
-		<module>jdbc-spring-boot-starter</module>
+		<module>fastjdbc-spring-boot-starter</module>
 		<module>xmemcached-spring-boot-starter</module>
     </modules>
 	
