@@ -1,1 +1,1 @@
-
+It provides secondary encapsulation of JPA operations by spring, and provides an object-oriented way to operate JQL / HQL. It aims to reduce SQL statement writing, quickly improve development efficiency, make code writing more elegant and increase readability
