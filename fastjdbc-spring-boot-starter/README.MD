@@ -1,5 +1,5 @@
 ### <code>fastjdbc-spring-boot-starter</code>
-fastjdbc-spring-boot-starter, which is a <code>jdbc</code> rapid development kit based on the <code>SpringBoot</code> framework. It is actually a secondary encapsulation of the <code>NamedJdbcTemplate</code> provided by the spring framework, and provides an annotation-based API configuration method to operate SQL. At the same time, you can still use <code>spring's spring-boot-starter-data-jdbc</code> function
+<code>fastjdbc-spring-boot-starter</code>, which is a <code>jdbc</code> quick development kit based on the <code>SpringBoot</code> framework. It is actually a secondary encapsulation of the <code>NamedJdbcTemplate</code> provided by the spring framework, and provides an annotation-based API configuration method to operate SQL. At the same time, you can still use <code>spring's spring-boot-starter-data-jdbc</code> function
 
 ###  Compatibility
 1. JDK 1.8 (or later)
