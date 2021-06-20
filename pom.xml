@@ -10,6 +10,7 @@
 		<module>reditools-spring-boot-starter</module>
 		<module>fastjdbc-spring-boot-starter</module>
 		<module>xmemcached-spring-boot-starter</module>
+		<module>config-spring-boot-starter</module>
     </modules>
 	
     <packaging>pom</packaging>
