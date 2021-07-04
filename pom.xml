@@ -11,6 +11,7 @@
 		<module>fastjdbc-spring-boot-starter</module>
 		<module>xmemcached-spring-boot-starter</module>
 		<module>config-spring-boot-starter</module>
+		<module>cached-spring-boot-starter</module>
     </modules>
 	
     <packaging>pom</packaging>
