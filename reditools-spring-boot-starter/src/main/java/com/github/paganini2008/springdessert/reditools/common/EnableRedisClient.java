@@ -15,28 +15,28 @@
 */
 package com.github.paganini2008.springdessert.reditools.common;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
  * 
- * RedisCommonConfig
+ * EnableRedisClient
  * 
  * @author Fred Feng
  *
- * @since 1.0
+ * @version 1.0
  */
-@Configuration(proxyBeanMethods = false)
-public class RedisCommonConfig {
-	
-	@Bean
-	public RedisKeepAliveResolver redisKeepAliveResolver() {
-		return new RedisKeepAliveResolver();
-	}
-
-	@Bean
-	public TtlKeeper ttlKeeper() {
-		return new TtlKeeper();
-	}
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+@AutoConfigureBefore(RedisAutoConfiguration.class)
+@Import({ RedisClientConfiguration.class })
+public @interface EnableRedisClient {
 }

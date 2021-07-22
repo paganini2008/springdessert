@@ -13,22 +13,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.github.paganini2008.springdessert.reditools;
+package com.github.paganini2008.springdessert.reditools.common;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import com.github.paganini2008.springdessert.reditools.common.RedisCommonConfiguration;
-import com.github.paganini2008.springdessert.reditools.messager.RedisMessageConfiguration;
 
 /**
  * 
- * ReditoolsAutoConfiguration
+ * RedisCommonConfiguration
  * 
  * @author Fred Feng
- * @version 1.0
+ *
+ * @since 1.0
  */
 @Configuration(proxyBeanMethods = false)
-@Import({ RedisMessageConfiguration.class, RedisCommonConfiguration.class })
-public class ReditoolsAutoConfiguration {
+public class RedisCommonConfiguration {
+	
+	@Bean
+	public RedisKeepAliveResolver redisKeepAliveResolver() {
+		return new RedisKeepAliveResolver();
+	}
+
+	@Bean
+	public TtlKeeper ttlKeeper() {
+		return new TtlKeeper();
+	}
+
 }
