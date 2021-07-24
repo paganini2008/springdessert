@@ -24,6 +24,7 @@ package com.github.paganini2008.springdessert.reditools;
  */
 public abstract class RedisComponentNames {
 
+	public static final String REDIS_CLIENT = "reditools:redis-client";
 	public static final String REDIS_SERIALIZER = "reditools:redis-serializer";
 	public static final String REDIS_TEMPLATE = "reditools:redis-template";
 	public static final String REDIS_MESSAGE_SENDER = "reditools:redis-message-sender";

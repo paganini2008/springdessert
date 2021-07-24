@@ -24,7 +24,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -59,8 +58,9 @@ import redis.clients.jedis.Jedis;
  * @author Fred Feng
  * @version 1.0
  */
+@SuppressWarnings("all")
 @Setter
-@Configuration(proxyBeanMethods = false)
+@Configuration
 @ConfigurationProperties(prefix = "spring.redis")
 @ConditionalOnMissingBean(RedisConnectionFactory.class)
 public class RedisClientConfiguration {
@@ -70,53 +70,43 @@ public class RedisClientConfiguration {
 	private int port;
 	private int database;
 
-	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ GenericObjectPool.class, RedisClient.class })
-	public static class LettuceRedisConfiguration {
-
-		@Primary
-		@Bean
-		public RedisConnectionFactory redisConnectionFactory(RedisConfiguration redisConfiguration,
-				GenericObjectPoolConfig<?> redisPoolConfig) {
-			LettuceClientConfiguration redisClientConfiguration = LettucePoolingClientConfiguration.builder()
-					.commandTimeout(Duration.ofMillis(60000)).shutdownTimeout(Duration.ofMillis(60000)).poolConfig(redisPoolConfig).build();
-			if (redisConfiguration instanceof RedisStandaloneConfiguration) {
-				return new LettuceConnectionFactory((RedisStandaloneConfiguration) redisConfiguration, redisClientConfiguration);
-			} else if (redisConfiguration instanceof RedisSentinelConfiguration) {
-				return new LettuceConnectionFactory((RedisSentinelConfiguration) redisConfiguration, redisClientConfiguration);
-			} else if (redisConfiguration instanceof RedisClusterConfiguration) {
-				return new LettuceConnectionFactory((RedisClusterConfiguration) redisConfiguration, redisClientConfiguration);
-			}
-			throw new UnsupportedOperationException("Create LettuceConnectionFactory");
+	@Bean("redisConnectionFactory")
+	public RedisConnectionFactory lettuceRedisConnectionFactory(RedisConfiguration redisConfiguration,
+			GenericObjectPoolConfig redisPoolConfig) {
+		LettuceClientConfiguration redisClientConfiguration = LettucePoolingClientConfiguration.builder()
+				.commandTimeout(Duration.ofMillis(60000)).shutdownTimeout(Duration.ofMillis(60000)).poolConfig(redisPoolConfig).build();
+		if (redisConfiguration instanceof RedisStandaloneConfiguration) {
+			return new LettuceConnectionFactory((RedisStandaloneConfiguration) redisConfiguration, redisClientConfiguration);
+		} else if (redisConfiguration instanceof RedisSentinelConfiguration) {
+			return new LettuceConnectionFactory((RedisSentinelConfiguration) redisConfiguration, redisClientConfiguration);
+		} else if (redisConfiguration instanceof RedisClusterConfiguration) {
+			return new LettuceConnectionFactory((RedisClusterConfiguration) redisConfiguration, redisClientConfiguration);
 		}
+		throw new UnsupportedOperationException("Create LettuceConnectionFactory");
 	}
 
-	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ GenericObjectPool.class, JedisConnection.class, Jedis.class })
-	public static class JedisRedisConfiguration {
-
-		@Bean
-		public RedisConnectionFactory redisConnectionFactory(RedisConfiguration redisConfiguration,
-				GenericObjectPoolConfig<?> redisPoolConfig) {
-			JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
-			jedisClientConfiguration.connectTimeout(Duration.ofMillis(60000)).readTimeout(Duration.ofMillis(60000)).usePooling()
-					.poolConfig(redisPoolConfig);
-			if (redisConfiguration instanceof RedisStandaloneConfiguration) {
-				return new JedisConnectionFactory((RedisStandaloneConfiguration) redisConfiguration, jedisClientConfiguration.build());
-			} else if (redisConfiguration instanceof RedisSentinelConfiguration) {
-				return new JedisConnectionFactory((RedisSentinelConfiguration) redisConfiguration, jedisClientConfiguration.build());
-			} else if (redisConfiguration instanceof RedisClusterConfiguration) {
-				return new JedisConnectionFactory((RedisClusterConfiguration) redisConfiguration, jedisClientConfiguration.build());
-			}
-			throw new UnsupportedOperationException("Create JedisConnectionFactory");
+	@Bean("redisConnectionFactory")
+	public RedisConnectionFactory jedisRedisConnectionFactory(RedisConfiguration redisConfiguration,
+			GenericObjectPoolConfig redisPoolConfig) {
+		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
+		jedisClientConfiguration.connectTimeout(Duration.ofMillis(60000)).readTimeout(Duration.ofMillis(60000)).usePooling()
+				.poolConfig(redisPoolConfig);
+		if (redisConfiguration instanceof RedisStandaloneConfiguration) {
+			return new JedisConnectionFactory((RedisStandaloneConfiguration) redisConfiguration, jedisClientConfiguration.build());
+		} else if (redisConfiguration instanceof RedisSentinelConfiguration) {
+			return new JedisConnectionFactory((RedisSentinelConfiguration) redisConfiguration, jedisClientConfiguration.build());
+		} else if (redisConfiguration instanceof RedisClusterConfiguration) {
+			return new JedisConnectionFactory((RedisClusterConfiguration) redisConfiguration, jedisClientConfiguration.build());
 		}
-
+		throw new UnsupportedOperationException("Create JedisConnectionFactory");
 	}
 
 	@ConditionalOnMissingBean
 	@Bean
-	public GenericObjectPoolConfig<?> redisPoolConfig() {
-		GenericObjectPoolConfig<?> redisPoolConfig = new GenericObjectPoolConfig<>();
+	public GenericObjectPoolConfig redisPoolConfig() {
+		GenericObjectPoolConfig redisPoolConfig = new GenericObjectPoolConfig();
 		redisPoolConfig.setMinIdle(1);
 		redisPoolConfig.setMaxIdle(10);
 		redisPoolConfig.setMaxTotal(200);
