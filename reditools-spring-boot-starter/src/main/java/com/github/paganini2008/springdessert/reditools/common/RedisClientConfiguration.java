@@ -1,5 +1,5 @@
 /**
-* Copyright 2018-2021 Fred Feng (paganini.fy@gmail.com)
+* Copyright 2017-2021 Fred Feng (paganini.fy@gmail.com)
 
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -30,9 +30,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
@@ -49,7 +46,6 @@ import com.github.paganini2008.devtools.StringUtils;
 
 import io.lettuce.core.RedisClient;
 import lombok.Setter;
-import redis.clients.jedis.Jedis;
 
 /**
  * 
@@ -86,23 +82,6 @@ public class RedisClientConfiguration {
 		throw new UnsupportedOperationException("Create LettuceConnectionFactory");
 	}
 
-	@ConditionalOnClass({ GenericObjectPool.class, JedisConnection.class, Jedis.class })
-	@Bean("redisConnectionFactory")
-	public RedisConnectionFactory jedisRedisConnectionFactory(RedisConfiguration redisConfiguration,
-			GenericObjectPoolConfig redisPoolConfig) {
-		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
-		jedisClientConfiguration.connectTimeout(Duration.ofMillis(60000)).readTimeout(Duration.ofMillis(60000)).usePooling()
-				.poolConfig(redisPoolConfig);
-		if (redisConfiguration instanceof RedisStandaloneConfiguration) {
-			return new JedisConnectionFactory((RedisStandaloneConfiguration) redisConfiguration, jedisClientConfiguration.build());
-		} else if (redisConfiguration instanceof RedisSentinelConfiguration) {
-			return new JedisConnectionFactory((RedisSentinelConfiguration) redisConfiguration, jedisClientConfiguration.build());
-		} else if (redisConfiguration instanceof RedisClusterConfiguration) {
-			return new JedisConnectionFactory((RedisClusterConfiguration) redisConfiguration, jedisClientConfiguration.build());
-		}
-		throw new UnsupportedOperationException("Create JedisConnectionFactory");
-	}
-
 	@ConditionalOnMissingBean
 	@Bean
 	public GenericObjectPoolConfig redisPoolConfig() {
@@ -131,7 +110,7 @@ public class RedisClientConfiguration {
 		return redisStandaloneConfiguration;
 	}
 
-	@ConditionalOnMissingBean
+	@ConditionalOnMissingBean(name = "stringRedisTemplate")
 	@Bean
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		return new StringRedisTemplate(redisConnectionFactory);
