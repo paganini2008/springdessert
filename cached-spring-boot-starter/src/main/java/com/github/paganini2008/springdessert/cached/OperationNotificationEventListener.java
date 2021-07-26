@@ -21,8 +21,8 @@ import indi.atlantis.framework.tridenter.consistency.ConsistencyRequestContext;
  * 
  * OperationNotificationEventListener
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public class OperationNotificationEventListener implements ApplicationContextAware, SmartApplicationListener {
 

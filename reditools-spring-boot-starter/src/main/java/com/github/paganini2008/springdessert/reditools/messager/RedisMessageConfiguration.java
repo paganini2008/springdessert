@@ -53,7 +53,7 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
  * RedisMessageConfiguration
  * 
  * @author Fred Feng
- * @version 1.0
+ * @since 2.0.1
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnBean(RedisConnectionFactory.class)

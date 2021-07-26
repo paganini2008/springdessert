@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
  * 
  * Cached
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
- * @since 1.0
+ * @since 2.0.1
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

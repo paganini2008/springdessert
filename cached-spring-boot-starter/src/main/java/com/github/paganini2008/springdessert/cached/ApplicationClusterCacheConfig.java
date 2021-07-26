@@ -22,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * ApplicationClusterCacheConfig
  *
- * @author Jimmy Hoff
+ * @author Fred Feng
  *
- * @since 1.0
+ * @since 2.0.1
  */
 @EnableAsync
 @ConditionalOnExpression("${spring.application.cluster.multicast.enabled} && ${spring.application.cluster.cache.enabled}")

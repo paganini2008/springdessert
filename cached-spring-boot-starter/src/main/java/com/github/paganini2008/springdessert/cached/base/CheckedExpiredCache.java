@@ -15,8 +15,8 @@ import com.github.paganini2008.devtools.multithreads.ThreadUtils;
  * 
  * CheckedExpiredCache
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public class CheckedExpiredCache implements ExpiredCache, Executable {
 

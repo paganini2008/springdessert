@@ -32,7 +32,7 @@ import com.github.paganini2008.springdesert.fastjdbc.annotations.Dao;
  * Db4jClassPathDaoScanner
  *
  * @author Fred Feng
- * @since 1.0
+ * @since 2.0.1
  */
 public class Db4jClassPathDaoScanner extends ClassPathBeanDefinitionScanner {
 

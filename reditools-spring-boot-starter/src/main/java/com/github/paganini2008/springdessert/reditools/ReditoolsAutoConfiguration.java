@@ -26,7 +26,7 @@ import com.github.paganini2008.springdessert.reditools.messager.RedisMessageConf
  * ReditoolsAutoConfiguration
  * 
  * @author Fred Feng
- * @version 1.0
+ * @since 2.0.1
  */
 @Configuration(proxyBeanMethods = false)
 @Import({ RedisMessageConfiguration.class, RedisCommonConfiguration.class })

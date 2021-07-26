@@ -67,7 +67,7 @@ import com.github.paganini2008.springdesert.fastjdbc.annotations.Update;
  * DaoProxyBean
  *
  * @author Fred Feng
- * @since 1.0
+ * @since 2.0.1
  */
 @SuppressWarnings("all")
 public class DaoProxyBean<T> extends EnhancedJdbcDaoSupport implements InvocationHandler {

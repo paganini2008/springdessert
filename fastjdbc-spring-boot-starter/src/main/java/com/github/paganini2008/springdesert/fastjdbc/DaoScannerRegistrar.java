@@ -36,7 +36,7 @@ import com.github.paganini2008.springdesert.fastjdbc.db4j.Db4jClassPathDaoScanne
  * DaoScannerRegistrar
  *
  * @author Fred Feng
- * @since 1.0
+ * @since 2.0.1
  */
 public class DaoScannerRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware {
 

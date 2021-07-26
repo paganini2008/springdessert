@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
  * 
  * ExpiredCache
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public interface ExpiredCache extends Cache {
 

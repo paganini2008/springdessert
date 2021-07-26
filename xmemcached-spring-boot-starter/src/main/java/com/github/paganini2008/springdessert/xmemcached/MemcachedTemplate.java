@@ -29,7 +29,7 @@ import net.rubyeye.xmemcached.utils.AddrUtil;
  * MemcachedTemplate
  *
  * @author Fred Feng
- * @version 1.0
+ * @since 2.0.1
  */
 public class MemcachedTemplate implements MemcachedOperations {
 
@@ -73,7 +73,7 @@ public class MemcachedTemplate implements MemcachedOperations {
 	 * Builder
 	 *
 	 * @author Fred Feng
-	 * @version 1.0
+	 * @since 2.0.1
 	 */
 	public static class Builder {
 

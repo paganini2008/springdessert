@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * 
  * FifoCache
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public class FifoCache extends BasicCache {
 
@@ -20,8 +20,8 @@ public class FifoCache extends BasicCache {
 	 * 
 	 * FifoKeyExpirationPolicy
 	 *
-	 * @author Jimmy Hoff
-	 * @since 1.0
+	 * @author Fred Feng
+	 * @since 2.0.1
 	 */
 	private static class FifoKeyExpirationPolicy implements KeyExpirationPolicy {
 

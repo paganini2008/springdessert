@@ -30,7 +30,7 @@ import com.github.paganini2008.springdesert.fastjdbc.DaoScannerRegistrar;
  * DaoScan
  *
  * @author Fred Feng
- * @since 1.0
+ * @since 2.0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

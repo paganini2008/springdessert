@@ -18,8 +18,8 @@ import com.github.paganini2008.springdessert.cached.base.RemovalReason;
  * 
  * ApplicationClusterCache
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public class ApplicationClusterCache implements Cache, ApplicationContextAware {
 
@@ -135,8 +135,8 @@ public class ApplicationClusterCache implements Cache, ApplicationContextAware {
 	 * 
 	 * ApplicationClusterHashOperations
 	 *
-	 * @author Jimmy Hoff
-	 * @since 1.0
+	 * @author Fred Feng
+	 * @since 2.0.1
 	 */
 	public class ApplicationClusterHashOperations implements HashOperations {
 
@@ -188,8 +188,8 @@ public class ApplicationClusterCache implements Cache, ApplicationContextAware {
 	 * 
 	 * ApplicationClusterSetOperations
 	 *
-	 * @author Jimmy Hoff
-	 * @since 1.0
+	 * @author Fred Feng
+	 * @since 2.0.1
 	 */
 	public class ApplicationClusterSetOperations implements SetOperations {
 
@@ -248,8 +248,8 @@ public class ApplicationClusterCache implements Cache, ApplicationContextAware {
 	 * 
 	 * ApplicationClusterListOperations
 	 *
-	 * @author Jimmy Hoff
-	 * @since 1.0
+	 * @author Fred Feng
+	 * @since 2.0.1
 	 */
 	public class ApplicationClusterListOperations implements ListOperations {
 

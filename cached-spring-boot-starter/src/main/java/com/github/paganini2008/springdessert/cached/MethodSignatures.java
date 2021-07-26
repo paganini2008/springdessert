@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * MethodSignatures
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 @Slf4j
 public abstract class MethodSignatures {

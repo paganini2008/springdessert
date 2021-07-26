@@ -4,8 +4,8 @@ package com.github.paganini2008.springdessert.cached.base;
  * 
  * RemovalListener
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 public interface RemovalListener {
 

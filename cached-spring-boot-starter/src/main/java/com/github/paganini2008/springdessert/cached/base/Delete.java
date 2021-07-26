@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
  * 
  * Delete
  *
- * @author Jimmy Hoff
- * @since 1.0
+ * @author Fred Feng
+ * @since 2.0.1
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
