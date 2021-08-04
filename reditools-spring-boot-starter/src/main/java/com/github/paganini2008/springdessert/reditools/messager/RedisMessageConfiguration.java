@@ -122,10 +122,10 @@ public class RedisMessageConfiguration {
 
 		@Bean(REDIS_MESSAGE_LISTENER_CONTAINER)
 		public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory,
-				@Qualifier(REDIS_MESSAGE_PUBSUB_LISTENER) MessageListenerAdapter redisMessagePubsubListener) {
+				@Qualifier(REDIS_MESSAGE_PUBSUB_LISTENER) MessageListenerAdapter messageListener) {
 			RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
 			redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
-			redisMessageListenerContainer.addMessageListener(redisMessagePubsubListener, new ChannelTopic(pubsubChannelKey));
+			redisMessageListenerContainer.addMessageListener(messageListener, new ChannelTopic(pubsubChannelKey));
 			return redisMessageListenerContainer;
 		}
 
