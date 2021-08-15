@@ -15,6 +15,8 @@
 */
 package com.github.paganini2008.springdessert.reditools;
 
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -28,7 +30,8 @@ import com.github.paganini2008.springdessert.reditools.messager.RedisMessageConf
  * @author Fred Feng
  * @since 2.0.1
  */
-@Configuration(proxyBeanMethods = false)
+@Configuration
+@AutoConfigureAfter(RedisAutoConfiguration.class)
 @Import({ RedisMessageConfiguration.class, RedisCommonConfiguration.class })
 public class ReditoolsAutoConfiguration {
 }
