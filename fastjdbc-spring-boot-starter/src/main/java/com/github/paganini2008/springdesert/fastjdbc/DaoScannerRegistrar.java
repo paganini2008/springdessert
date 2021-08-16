@@ -43,7 +43,7 @@ public class DaoScannerRegistrar implements ImportBeanDefinitionRegistrar, Resou
 	private static final boolean db4jPresent;
 
 	static {
-		db4jPresent = SystemPropertyUtils.getBoolean("db4j.enabled", false);
+		db4jPresent = SystemPropertyUtils.getBoolean("springdesert.fastjdbc.db4j.enabled", false);
 	}
 
 	private ResourceLoader resourceLoader;

@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import com.github.paganini2008.springdesert.fastjdbc.DaoScannerConfiguration;
 import com.github.paganini2008.springdesert.fastjdbc.DaoScannerRegistrar;
 
 /**
@@ -35,7 +36,7 @@ import com.github.paganini2008.springdesert.fastjdbc.DaoScannerRegistrar;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import({ DaoScannerRegistrar.class })
+@Import({ DaoScannerRegistrar.class, DaoScannerConfiguration.class })
 public @interface DaoScan {
 
 	String[] basePackages();

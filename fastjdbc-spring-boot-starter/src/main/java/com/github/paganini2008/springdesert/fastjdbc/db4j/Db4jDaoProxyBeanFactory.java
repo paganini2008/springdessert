@@ -31,6 +31,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import com.github.paganini2008.devtools.Provider;
 import com.github.paganini2008.devtools.beans.BeanUtils;
 import com.github.paganini2008.devtools.jdbc.ConnectionFactory;
+import com.github.paganini2008.devtools.jdbc.DataSourceFactory;
 
 /**
  * 
@@ -48,24 +49,25 @@ public class Db4jDaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationCo
 	}
 
 	@Autowired
-	private DataSource dataSource;
+	private DataSourceFactory dataSourceFactory;
 
 	private ApplicationContext ctx;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T getObject() throws Exception {
-		return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass }, new Db4jDaoProxyBean<T>(
-				new TransactionSynchronizationConnectionFactory(dataSource), interfaceClass, new Provider<Class<?>, Object>() {
-					@Override
-					protected Object createObject(Class<?> listenerClass) {
-						try {
-							return ctx.getBean(listenerClass);
-						} catch (BeansException e) {
-							return BeanUtils.instantiate(listenerClass);
-						}
-					}
-				}));
+		return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass },
+				new Db4jDaoProxyBean<T>(new TransactionSynchronizationConnectionFactory(dataSourceFactory.getDataSource()), interfaceClass,
+						new Provider<Class<?>, Object>() {
+							@Override
+							protected Object createObject(Class<?> listenerClass) {
+								try {
+									return ctx.getBean(listenerClass);
+								} catch (BeansException e) {
+									return BeanUtils.instantiate(listenerClass);
+								}
+							}
+						}));
 	}
 
 	@Override

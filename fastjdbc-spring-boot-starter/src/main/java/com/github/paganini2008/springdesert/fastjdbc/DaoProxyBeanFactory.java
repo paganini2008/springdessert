@@ -17,8 +17,6 @@ package com.github.paganini2008.springdesert.fastjdbc;
 
 import java.lang.reflect.Proxy;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import com.github.paganini2008.devtools.Provider;
 import com.github.paganini2008.devtools.beans.BeanUtils;
+import com.github.paganini2008.devtools.jdbc.DataSourceFactory;
 
 /**
  * 
@@ -44,7 +43,7 @@ public class DaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationContex
 	}
 
 	@Autowired
-	private DataSource dataSource;
+	private DataSourceFactory dataSourceFactory;
 
 	private ApplicationContext ctx;
 
@@ -52,7 +51,7 @@ public class DaoProxyBeanFactory<T> implements FactoryBean<T>, ApplicationContex
 	@Override
 	public T getObject() throws Exception {
 		return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass },
-				new DaoProxyBean<T>(dataSource, interfaceClass, new Provider<Class<?>, Object>() {
+				new DaoProxyBean<T>(dataSourceFactory.getDataSource(), interfaceClass, new Provider<Class<?>, Object>() {
 					@Override
 					protected Object createObject(Class<?> listenerClass) {
 						try {
