@@ -171,6 +171,10 @@ public class RedisAtomicLongSequence extends Number {
 		return l.doubleValue();
 	}
 
+	public String getName() {
+		return l.getKey();
+	}
+
 	public String toString() {
 		return l.toString();
 	}
