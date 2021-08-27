@@ -25,5 +25,9 @@ package com.github.paganini2008.springdessert.reditools.common;
 public interface IdGenerator {
 
 	long generateId();
-	
+
+	default long currentId() {
+		throw new UnsupportedOperationException("currentId");
+	}
+
 }

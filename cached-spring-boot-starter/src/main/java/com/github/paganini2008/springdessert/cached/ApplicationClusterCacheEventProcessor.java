@@ -14,8 +14,8 @@ import com.github.paganini2008.devtools.Observable;
 import com.github.paganini2008.devtools.Observer;
 import com.github.paganini2008.springdessert.cached.base.Cache;
 
-import indi.atlantis.framework.tridenter.consistency.ConsistencyRequest;
-import indi.atlantis.framework.tridenter.consistency.ConsistencyRequestConfirmationEvent;
+import indi.atlantis.framework.tridenter.ccr.CcrRequest;
+import indi.atlantis.framework.tridenter.ccr.CcrRequestConfirmationEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -134,7 +134,7 @@ public class ApplicationClusterCacheEventProcessor implements SmartApplicationLi
 
 	@Override
 	public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
-		return eventType == ConsistencyRequestConfirmationEvent.class;
+		return eventType == CcrRequestConfirmationEvent.class;
 	}
 
 	@Override
@@ -144,8 +144,8 @@ public class ApplicationClusterCacheEventProcessor implements SmartApplicationLi
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent applicationEvent) {
-		final ConsistencyRequestConfirmationEvent event = (ConsistencyRequestConfirmationEvent) applicationEvent;
-		final ConsistencyRequest result = event.getRequest();
+		final CcrRequestConfirmationEvent event = (CcrRequestConfirmationEvent) applicationEvent;
+		final CcrRequest result = event.getRequest();
 		if (event.isOk()) {
 			final String name = result.getName();
 			final OperationNotification operationNotification = (OperationNotification) result.getValue();

@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 
-import indi.atlantis.framework.tridenter.consistency.ConsistencyRequestContext;
+import indi.atlantis.framework.tridenter.ccr.CcrRequestLauncher;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class OperationNotificationEventListener implements ApplicationContextAwa
 	private int timeout;
 
 	@Autowired
-	private ConsistencyRequestContext context;
+	private CcrRequestLauncher context;
 
 	@Autowired
 	private ApplicationClusterCacheEventProcessor eventProcessor;

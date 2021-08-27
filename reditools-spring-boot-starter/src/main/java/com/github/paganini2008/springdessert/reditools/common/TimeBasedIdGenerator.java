@@ -53,12 +53,21 @@ public class TimeBasedIdGenerator implements IdGenerator {
 	@Override
 	public long generateId() {
 		final String timestamp = DateUtils.format(System.currentTimeMillis(), defaultDatePattern);
-		RedisAtomicLong counter = MapUtils.get(cache, timestamp, () -> {
+		return Long.parseLong(timestamp) * maxConcurrency + getRedisAtomicLong(timestamp).incrementAndGet();
+	}
+
+	@Override
+	public long currentId() {
+		final String timestamp = DateUtils.format(System.currentTimeMillis(), defaultDatePattern);
+		return Long.parseLong(timestamp) * maxConcurrency + getRedisAtomicLong(timestamp).get();
+	}
+
+	protected RedisAtomicLong getRedisAtomicLong(String timestamp) {
+		return MapUtils.get(cache, timestamp, () -> {
 			RedisAtomicLong l = new RedisAtomicLong(keyPrefix + ":" + timestamp, connectionFactory);
 			l.expire(60, TimeUnit.SECONDS);
 			return l;
 		});
-		return Long.parseLong(timestamp) * maxConcurrency + counter.incrementAndGet();
 	}
 
 }

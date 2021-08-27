@@ -55,8 +55,9 @@ public class TtlKeeper {
 
 	@PostConstruct
 	public void configure() {
+		final int nThreads = Runtime.getRuntime().availableProcessors() * 2;
 		ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-		taskScheduler.setPoolSize(8);
+		taskScheduler.setPoolSize(nThreads);
 		taskScheduler.setThreadFactory(new PooledThreadFactory("ttl-keeper-task-scheduler-"));
 		taskScheduler.setWaitForTasksToCompleteOnShutdown(true);
 		taskScheduler.setAwaitTerminationSeconds(60);
