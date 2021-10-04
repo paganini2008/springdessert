@@ -15,30 +15,19 @@
 */
 package com.github.paganini2008.springdessert.reditools.common;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.scheduling.TaskScheduler;
+import com.github.paganini2008.devtools.multithreads.latch.Latch;
 
 /**
  * 
- * RedisCommonConfiguration
- * 
- * @author Fred Feng
+ * ProcessLock
  *
+ * @author Fred Feng
  * @since 2.0.1
  */
-@Configuration(proxyBeanMethods = false)
-public class RedisCommonConfiguration {
+public interface ProcessLock extends Latch {
 
-	@Bean
-	public RedisKeepAliveResolver redisKeepAliveResolver() {
-		return new RedisKeepAliveResolver();
-	}
+	String getLockName();
 
-	@Bean
-	public RedisTtlKeeper redisTtlKeeper(RedisConnectionFactory connectionFactory, TaskScheduler taskScheduler) {
-		return new RedisTtlKeeper(connectionFactory, taskScheduler);
-	}
+	int getExpiration();
 
 }

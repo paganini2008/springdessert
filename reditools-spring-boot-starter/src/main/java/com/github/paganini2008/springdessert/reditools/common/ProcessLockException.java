@@ -15,17 +15,24 @@
 */
 package com.github.paganini2008.springdessert.reditools.common;
 
-import com.github.paganini2008.devtools.multithreads.latch.Latch;
-
 /**
  * 
- * SharedLatch
+ * ProcessLockException
  *
  * @author Fred Feng
- * @since 2.0.1
+ *
+ * @since 2.0.4
  */
-public interface SharedLatch extends Latch {
+public class ProcessLockException extends IllegalStateException {
 
-	String getKey();
+	private static final long serialVersionUID = 1415118807188255288L;
+
+	public ProcessLockException(String msg) {
+		super(msg);
+	}
+
+	public ProcessLockException(String msg, Throwable e) {
+		super(msg, e);
+	}
 
 }

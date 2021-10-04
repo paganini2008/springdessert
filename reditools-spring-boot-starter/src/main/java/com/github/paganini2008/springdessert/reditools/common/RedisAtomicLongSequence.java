@@ -52,7 +52,10 @@ public class RedisAtomicLongSequence extends Number {
 		if (initialValue >= maxValue) {
 			throw new IllegalArgumentException("Maximum value must > initial value.");
 		}
-		l = new RedisAtomicLong(name, connectionFactory, initialValue);
+		l = new RedisAtomicLong(name, connectionFactory);
+		if (l.get() < initialValue) {
+			l.set(initialValue);
+		}
 		this.initialValue = initialValue;
 		this.maxValue = maxValue;
 	}
