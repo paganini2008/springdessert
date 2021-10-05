@@ -11,7 +11,7 @@ import com.github.paganini2008.devtools.ArrayUtils;
 import com.github.paganini2008.devtools.StringUtils;
 import com.github.paganini2008.springdessert.cached.base.Cache;
 
-import indi.atlantis.framework.tridenter.utils.ApplicationContextUtils;
+import io.atlantisframework.tridenter.utils.ApplicationContextUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**

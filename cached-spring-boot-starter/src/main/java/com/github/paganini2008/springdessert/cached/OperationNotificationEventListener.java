@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 
-import indi.atlantis.framework.tridenter.ccr.CcrRequestLauncher;
+import io.atlantisframework.tridenter.ccr.CcrRequestLauncher;
 
 /**
  * 

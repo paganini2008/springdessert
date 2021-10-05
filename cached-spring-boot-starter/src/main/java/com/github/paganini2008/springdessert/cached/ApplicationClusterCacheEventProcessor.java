@@ -14,8 +14,8 @@ import com.github.paganini2008.devtools.Observable;
 import com.github.paganini2008.devtools.Observer;
 import com.github.paganini2008.springdessert.cached.base.Cache;
 
-import indi.atlantis.framework.tridenter.ccr.CcrRequest;
-import indi.atlantis.framework.tridenter.ccr.CcrRequestConfirmationEvent;
+import io.atlantisframework.tridenter.ccr.CcrRequest;
+import io.atlantisframework.tridenter.ccr.CcrRequestConfirmationEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
