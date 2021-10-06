@@ -17,8 +17,6 @@ package com.github.paganini2008.springdessert.reditools.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.scheduling.TaskScheduler;
 
 /**
  * 
@@ -34,11 +32,6 @@ public class RedisCommonConfiguration {
 	@Bean
 	public RedisKeepAliveResolver redisKeepAliveResolver() {
 		return new RedisKeepAliveResolver();
-	}
-
-	@Bean
-	public RedisTtlKeeper redisTtlKeeper(RedisConnectionFactory connectionFactory, TaskScheduler taskScheduler) {
-		return new RedisTtlKeeper(connectionFactory, taskScheduler);
 	}
 
 }
